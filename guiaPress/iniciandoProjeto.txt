@@ -1,0 +1,13 @@
+instala node na sua maquina 
+instala banco de dados na sua maquina
+instalar bibliotecas do express
+
+(npm init) ==> iniciar um projeto com node no repositorio desejado
+(npm install --save express) ==> instala o pacote express no repositorio ==> para trabalhar com o node ==> node serve para rodar o javascript do lado do servidor
+(npm install --save sequelize) ==> maneira de trabalhar com o banco de dados usando codigos javascript, sem a necessidade de usar comandos sql
+(npm install --save mysql2) ==> uma dependencia que o sequelize tem para se conectar com o mysql(banco de dados)
+(npm install --save body-parser) ==> biblioteca especifica do express para trabalhar com formularios ==> pegar informações/dados 
+(npm install --save ejs) ==> responsavel por renderizar o html
+(npm install --save -g nodemon) ==> roda/reinicia o servidor automaticamente todas a vezes que houver uma atualização nos arquivos  
+(npm install --save slugify) ==> uma biblioteca do node, tranforma uma string em uma slug, (texto todo em minusculo sem espaço e com um traço separando, sem caracter especial )
+ 

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Capturar Cep</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Capturar Cep</h1>
+
+    <label for="cep">Adicione o cep desejado:</label>
+    <input type="number" name="cep" id="cep" max="8">
+    <button type="button" onclick="capturarDados()">Verificar</button>
+
+    <p id="resultado"></p>
+
+  </div>
+
+  <script>
+
+
+
+    function capturarDados() {
+
+    let cep = document.getElementById('cep').value
+
+      let resultado = document.getElementById('resultado')
+      // parseFloat(cep.length).replace("-", '')
+
+      if (cep.length == '') {
+        alert("Adicione um CEP valido!") //
+        return
+      }
+
+      if (cep.length != 8) {
+        alert('Cep Invalido')
+        return
+      }
+
+
+
+    let url = `https://viacep.com.br/ws/${cep}/json/`
+
+      fetch(url)
+        .then((Response) => Response.json())
+        .then((date) => {
+          dados(date)
+        })
+    }
+
+    function dados(date) {
+      resultado.innerHTML = `
+        <p>Endereço: ${date.logradouro}</p>
+        <p>Bairro: ${date.bairro}</p>
+        <p>Localidade: ${date.localidade}</p>
+        <p>UF: ${date.uf}</p>`
+    }
+
+
+  </script>
+</body>
+
+</html>

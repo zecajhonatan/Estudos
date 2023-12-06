@@ -1,0 +1,91 @@
+(git --version) ==> verifica a versão do git / vê se esta instalado corretamente
+
+(git config --global --list) ==> verifica quem e a pessoa que esta mexendo no git 
+
+(git config --global user.name <noneUsuario>) ==> adiciona o nome da pessoa que esta mexendo no git
+(git config --global user.email <e-mailUsuario>) ==> adiciona o email da pessoa que esta mexendo no git
+
+(clear) ==> limpa tudo que tem na tela do prompt de comando
+(ls / dir) ==> verifica os arquivos dentro do diretorio selecionado
+(cd <nomeArquivo>) ==> acessa um diretorio
+(cd ..) ==> voltar um diretorio
+(mkdir <nomeDiretorio>) ==> cria uma pasta/diretorio
+(rmdir <nomeDiretorio>) ==> exclui uma pasta no diretorio, se estiver vazia
+(rm -rf <nomeDiretorio>) ==> remove o diretorio de uma vez com todos os arquivos existentes nele
+(rm <nomeArquivo>) ==> remove um arquivo do diretorio
+(touch <nomeArquivo-extensão>) ==> cria um arquivo no diretorio
+(nano <nomeArquivo>) ==> editor de texto para prompt (^o ==> salva ^x ==> sair)
+(cat <nomeArquivo>) ==> exibe o conteudo do arquivo na tela do prompt 
+(mv <nomeArquivo> - <novoNome/caminhoFinal>) ==> move um aquivo para outra pasta / e permite mudar para o mesmo lugar para poder editar o nome do arquivo
+(ls -a) ==> exibe arquivos ocultos
+
+================================================================
+CRIAR REPOSITORIOS
+
+(git init) ==> cria um repositorio na pasta desejada / permite o inicio do versionamento do repositorio
+
+================================================================
+COLOCAR ARQUIVO NO STAGE
+
+(git status) ==> verifica os status dos arquivos
+(git add <nomeArquivo>) ==> prepara o arquivo para o versionamento - em um unico arquivo
+(git add .) ==> prepara todos os arquivos de uma só vez para o versionamento
+(git rm --cached <nomeArquivo>) ==> retorna a preparação do estagio de versionamento
+
+================================================================
+CRIANDO COMMITS
+
+(git commit -m "<mensagem>") ==> cria a versao para enviar para o servidor de nuvem 
+(git log) ==> verifica todos os commits feitos
+(git log --oneline) ==> outra forma de ver todos os commits feitos
+
+================================================================
+utilizar (&&) entre dois comandos / faz uma concatenação, funciona perfeitamente para produzir melhor 
+================================================================
+REVERTER COMMITS
+
+(git checkout <idCommit>) ==> voltar os commits com segurança / volta tudo que foi feito no commit desejado / (git checkout <nomeBranch>) ==> vai novamente para o estado inicial das modificações 
+(git revert <idCommit>) ==> volta os commits para modificação
+(git reset <idCommit> --hard) ==> exclui todos os commits 
+
+================================================================
+IGNORANDO ARQUIVOS
+
+(.gitignore) ==> ignora o rastreio de determinado arquivo ou pasta do projeto - so colocar o nome da pasta ou arquivo dentro do arquivo .gitignore
+
+================================================================ 
+CRIANDO BRANCHS
+
+(git branch) ==> verifica a quantidade de branch tem na linha do tempo
+(git branch <nomeBranch>) ==> cria um branch 
+(git checkout <nomeBranch>) ==> altera para o branch desejado
+(git branch <nomeBranch> -d) ==> deletar um branch - recebe uma mensagem se estiver commits
+(git branch <nomeBranch> -D) ==> deletar de uma vez por todas - sem receber nem um tipo de mansagem
+
+================================================================ 
+FUNDINDO BRANCHES
+
+(git merge <nomeBranch>) ==> fundir o branch principal com o branch desejado
+
+================================================================ 
+ENVIANDO DADOS GITHUB
+
+cria um repositorio no GITHUB 
+
+(git push --set-upstream <linkGitHub> <branch>) ==> sobe/envia todos os dados que temos na nossa maquina para o repositorio no GITHUB / e ja deixa a sincronização ativa
+
+(git push <linkGitHub> <branch>)
+(git remote add origin <linkGitHub>)
+
+(git remote -v) ==> verifica a sincronização da pasta com o GITHUB
+
+================================================================ 
+CLONA REPOSITORIO DO GITHUB PARA O COMPUTADOR
+
+(git clone <linkGitHub>)
+
+
+
+
+
+
