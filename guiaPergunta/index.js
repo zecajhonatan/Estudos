@@ -23,7 +23,7 @@
 // instalar EJS ==> (npm install ejs)
 // instalar nodemon ==> (npm install -g nodemon --save)
 
-const express = require('express') // importanto um modulo de express do pacote
+const express = require('express') // importanto um modulo de express
 const app = express() // craindo uma instancia(objeto) do modulo express
 const bodyParser = require('body-parser') // ==> (analizar corpo) ==> importando a biblioteca do express
 // para receber dados de um formulario e preciso intalar uma biblioteca do express (body-parser)
@@ -70,7 +70,7 @@ app.get('/pergunta/:id', (req, res) => {
     Pergunta.findOne({ // esse e um metodo do sequelize que vai no banco de dados e busca um dado com uma (condicao)
         where: { id: id } // where ==> entao | como
     }).then((pergunta) => {
-        
+
         if (pergunta != undefined) { // esta verificando se a pergunta foi encontrada
 
             Resposta.findAll({
@@ -116,7 +116,7 @@ app.post('/responder', (req, res) => { // rota para receber os dados do formular
 
 app.listen(PORT, function (error) { // foi criado um servidor local PARA RODAR localhost:8080/<rotas>
     if (error) {
-        console.log({ 'error': error})
+        console.log({ 'error': error })
     } else {
         console.log(`Servidor rodando na porta: http://localhost${PORT}`)
     }

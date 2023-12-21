@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compra Jogador no APP-EAFC</title>
+</head>
+<body>
+    <h1>FC-24-APP</h1>
+    <a href="/pesquisaJogador" id="tempo">Buscar Jogador</a>
+    <!-- <a href="/pesquisaJogador" id="tempo">Comprar Jogador</a> -->
+</body>
+<script>
+  let numero = 0
+    let teste = document.getElementById('tempo')
+    
+  let parar =  setInterval(() => {
+      numero++
+      teste.click()
+    console.log(numero)
+    if (numero == 30) clearInterval(parar)
+    }, 2000)
+
+</script>
+</html>

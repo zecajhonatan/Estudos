@@ -5,7 +5,7 @@ class SelecaoRepository {
   // CRUD
   create(pessoas) { // cadastrar na tabela
     const sql = 'INSERT INTO pessoas SET ?;' // instrução SQL
-    return consulta(sql, pessoas, 'Não foi possivel cadastrar...')
+    return consulta(sql, pessoas, 'Não foi possivel cadastrar...') // consulta no banco de dados
   }
 
   findAll() { // encontrar tudo da tabela

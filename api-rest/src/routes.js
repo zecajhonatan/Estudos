@@ -1,5 +1,5 @@
 import { Router } from "express";
-import SectionController from './app/controllers/sectionController.js'
+import SectionController from './app/controllers/sectionController.js' // classe
 let router = Router();
 
 // CREATE

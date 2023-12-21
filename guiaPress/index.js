@@ -7,11 +7,13 @@ let connection = require("./database/database"); // importação do objeto de co
 // arquivos de rotas
 let categoriesController = require("./categories/categoriesController"); // importando arquivo de rotas (categorias)
 let articlesController = require("./articles/articlesController"); // importando arquivo de rotas (artigos)
-
-
 // tabelas
-const Article = require("./articles/Article"); // importação modulo/Tabela
-const Category = require("./categories/Category"); // importação modulo/Tabela
+const Article = require("./articles/Article"); // importação modulo/Tabela criada no banco de dados
+const Category = require("./categories/Category"); // importação modulo/Tabela criada no banco de dados
+
+app.use("/", categoriesController); // dizendo para o express usar as rotas de outro arquivo
+app.use("/", articlesController); // dizendo para o express usar as rotas de outro arquivo
+
 
 // view engine
 app.set("view engine", "ejs"); // dizendo para o node usar o ejs / qual o motor de renderização que queremos trabalhar no node
@@ -24,7 +26,7 @@ app.use(bodyParser.json());
 app.use(express.static("public")); // dizendo para o express aceitar trabalhar com arquivos staticos ==> passando o nome da pasta que os arquivos vão ficar
 // database
 
-connection
+connection // autenticação da conexão com o banco de dados
   .authenticate()
   .then(() => {
     console.log("Conexão com o banco de dados feita com sucesso");
@@ -32,10 +34,6 @@ connection
   .catch((error) => {
     console.log("Erro na conexão com o banco de dados");
   });
-
-app.use("/", categoriesController); // dizendo para o express usar as rotas de outro arquivo
-app.use("/", articlesController); // dizendo para o express usar as rotas de outro arquivo
-
 
 
 // rotas das categorias separadas
