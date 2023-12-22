@@ -7,8 +7,9 @@
 </head>
 <body>
     <h1>FC-24-APP</h1>
-    <a href="/pesquisaJogador" id="tempo">Buscar Jogador</a>
-    <!-- <a href="/pesquisaJogador" id="tempo">Comprar Jogador</a> -->
+    <a href="/pesquisaMenorPrecoJogador" id="tempo">Buscar Jogador</a><br><br>
+    <a href="/buscarJogadorParaListar">Buscar Jogador Para Listar</a>
+    
 </body>
 <script>
   let numero = 0
@@ -18,7 +19,7 @@
       numero++
       teste.click()
     console.log(numero)
-    if (numero == 30) clearInterval(parar)
+    if (numero == 15) clearInterval(parar)
     }, 2000)
 
 </script>

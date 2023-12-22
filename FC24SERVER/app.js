@@ -7,24 +7,23 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.set('view engine', 'ejs') // tipo de motor de renderização
 
-const token = 'd828bf6c-4316-40fd-b98e-68f4d54b4995'
+const token = '5052acf7-3e3d-4bb5-ada6-f6ebaf4468d8'
 const proxy = 'https://corsproxy.io/?' // evita que tenha erros de CORS
 
 const idPlayer = 232580 // id do jogador conforme a colocação dele na lsitagem da AE
-const valorJogador = 1800 // PREÇO JOGADOR
+const valorJogador = 2300 // PREÇO JOGADOR
+const precoBase = 2000 // PRECO A BAIXO
 let start = 0
 
-let valorCompra = JSON.stringify({ 'bid': 2200 })
-
+// ROTA BASE URL
 app.get('/', (req, res) => {
   res.render('index.ejs')
 })
 
-app.get('/pesquisaJogador', (req, res) => {
+// ROTA PESQUISAR MENOR PREÇO DE UM JOGADOR
+app.get('/pesquisaMenorPrecoJogador', (req, res) => {
 
   start += 20
-  if (start >= 160) start = 0
-
   const queryParams = { maskedDefId: idPlayer, maxb: valorJogador, num: 21, start: start }
   const queryString = new URLSearchParams(queryParams).toString()
   const url = `https://utas.mob.v2.fut.ea.com/ut/game/fc24/transfermarket?${queryString}`
@@ -44,31 +43,44 @@ app.get('/pesquisaJogador', (req, res) => {
     })
     .then(data => {
 
-      let arrayJogador = data.auctionInfo
-      let filtroMenorValor = arrayJogador.filter(data => data.buyNowPrice < valorJogador)
+      let arrayTodosJogadores = data.auctionInfo // ARRAY
+      let menorPrecoEncontrado = arrayTodosJogadores.filter(data => data.buyNowPrice < precoBase)
 
-      // ordenar para que o preço mais barato aparece no topo
 
-      filtroMenorValor.sort((a, b) => {
-        if (a.buyNowPrice < b.buyNowPrice) {
-          return -1
-        } else {
-          true
-        }
-      })
+      if (arrayTodosJogadores.length == 21) {
+        console.log('Promixo tem mais um')
+        console.log(arrayTodosJogadores.length + ' arrayTodosJogadores')
+        console.log('---------------------')
+        console.log(menorPrecoEncontrado.length + ' menorPrecoEncontrado')
+        console.log('---------------------')
+      } else {
+        console.log('Promixo esse ponto acabou')
+        console.log(arrayTodosJogadores.length + ' arrayTodosJogadores')
+      }
+      // console.log(menorPrecoEncontrado)
+      // menorPrecoEncontrado.push(menorPrecoEncontrado)
+      // ORDENAR PARA QUE O PRECO MAIS BARATO APARACE NO TODO DO ARRAY
 
-      let trade = filtroMenorValor.map(data => data.tradeId)
-      let indentificaçãojogador = trade[0]
 
-      let compreAgoraPreco = filtroMenorValor[0].buyNowPrice
-      
-      // res.send(filtroMenorValor[0]) // dados de retorno da requisição
+      // console.log(menorPrecoEncontrado.length)
 
-      console.log(indentificaçãojogador)
-      console.log(compreAgoraPreco)
-      
-      comprarJogador(indentificaçãojogador, compreAgoraPreco)
-      // envia os dados para o console
+
+
+      // let trade = menorPrecoEncontrado.map(data => data.tradeId)
+      // let idPrimeiroJogadorArray = trade[0]
+      // let PrecoComprarAgoraPrimeiroJogador = menorPrecoEncontrado[0].buyNowPrice
+      // let primeiroJogadorArray = menorPrecoEncontrado[0]
+
+
+
+
+      // res.send(menorPrecoEncontrado) // dados de retorno da requisição
+      // console.log(idPrimeiroJogadorArray)
+      // console.log(PrecoComprarAgoraPrimeiroJogador)
+
+
+      // FUNCAO PARA COMPRA DE JOGADOR
+      // comprarJogador(idPrimeiroJogadorArray, PrecoComprarAgoraPrimeiroJogador)
 
     })
     .catch(error => {
@@ -76,9 +88,10 @@ app.get('/pesquisaJogador', (req, res) => {
     })
 })
 
-async function comprarJogador(trade1, compreAgoraPreco) {
+async function comprarJogador(trade1, PrecoComprarAgoraPrimeiroJogador) {
+
   const tradeId = trade1;
-  const queryParams = { maskedDefId: idPlayer, maxb: compreAgoraPreco, start: start };
+  const queryParams = { maskedDefId: idPlayer, maxb: PrecoComprarAgoraPrimeiroJogador, start: start };
   const queryString = new URLSearchParams(queryParams).toString();
   const url = `https://utas.mob.v2.fut.ea.com/ut/game/fc24/trade/${tradeId}/bid?${queryString}`;
 
@@ -89,8 +102,8 @@ async function comprarJogador(trade1, compreAgoraPreco) {
       'X-UT-SID': token
     },
     body: JSON.stringify({
-      "bid": compreAgoraPreco
-    }), // verificar se vai dar erro
+      "bid": PrecoComprarAgoraPrimeiroJogador
+    })
   })
     .then(data => {
       if (!data.ok) { // Corrigido: Invertido para tratar erro
@@ -108,6 +121,35 @@ async function comprarJogador(trade1, compreAgoraPreco) {
       console.log('ERRO NO CODIGO')
     });
 }
+
+
+app.get('/buscarJogadorParaListar', async (req, res) => {
+
+  const url = 'https://utas.mob.v2.fut.ea.com/ut/game/fc24/squad/active'
+
+  await fetch(url, {
+    method: 'GET',
+    headers: {
+      'content-type': 'application/json',
+      'X-UT-SID': token
+    }
+  })
+    .then(data => {
+      if (!data.ok) {
+        throw new Error('http error: ' + data.status)
+      }
+      return data.json()
+    })
+    .then(data => {
+
+      res.send(data)
+
+      console.log(data)
+    })
+    .catch(error => {
+      console.log(error.message)
+    })
+})
 
 
 
