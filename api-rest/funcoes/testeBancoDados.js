@@ -90,8 +90,6 @@ app.delete('/deletar/:id', (request, response) => {
   })
 })
 
-
-
 // CRIAÇÃO DO SERVIDOR
 app.listen(port, () => {
   console.log(`Servidor rodando na porta: http://localhost:${port}`)

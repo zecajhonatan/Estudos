@@ -3,9 +3,6 @@ const app = express()
 const PORT = 3000
 import { carros, dadosPorId, buscarIndice } from './arquivos.js'
 
-app.use(express.json())
-
-
 // dizer para o express fazer a leitura do corpo em formato json 
 app.use(express.json())
 
@@ -50,6 +47,10 @@ app.put("/atualizarDados/:id", (request, response) => {
 app.listen(PORT, () => {
   console.log(`Servidor Funcionando http://localhost:${PORT}/principal`)
 })
+
+
+
+ 
 
 
 

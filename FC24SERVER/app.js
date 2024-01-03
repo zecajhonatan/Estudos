@@ -7,12 +7,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.set('view engine', 'ejs') // tipo de motor de renderização
 
-const token = '5052acf7-3e3d-4bb5-ada6-f6ebaf4468d8'
+const token = '88420a5f-f0c8-413d-9d48-22a1e8da2d9c'
 const proxy = 'https://corsproxy.io/?' // evita que tenha erros de CORS
 
-const idPlayer = 232580 // id do jogador conforme a colocação dele na lsitagem da AE
-const valorJogador = 2300 // PREÇO JOGADOR
-const precoBase = 2000 // PRECO A BAIXO
+const idPlayer = 237679 // id do jogador conforme a colocação dele na lsitagem da AE
+const valorJogador = 3500 // PREÇO JOGADOR
+const menorPreco =  3000// PRECO A BAIXO
 let start = 0
 
 // ROTA BASE URL
@@ -20,19 +20,27 @@ app.get('/', (req, res) => {
   res.render('index.ejs')
 })
 
-// ROTA PESQUISAR MENOR PREÇO DE UM JOGADOR
-app.get('/pesquisaMenorPrecoJogador', (req, res) => {
+app.get('/teste', (req, res) => {
+  res.redirect('/pesquisaMenorPrecoJogador')
+})
 
-  start += 20
+// ROTA PESQUISAR MENOR PREÇO DE UM JOGADOR
+app.get('/pesquisaMenorPrecoJogador', async (req, res) => {
+
+  let trade
+  let PrecoComprarAgoraPrimeiroJogador
+  
+
   const queryParams = { maskedDefId: idPlayer, maxb: valorJogador, num: 21, start: start }
   const queryString = new URLSearchParams(queryParams).toString()
   const url = `https://utas.mob.v2.fut.ea.com/ut/game/fc24/transfermarket?${queryString}`
+  start += 20
 
   fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'X-UT-SID': token,
+      'X-UT-SID': token
     }
   })
     .then(data => {
@@ -44,43 +52,56 @@ app.get('/pesquisaMenorPrecoJogador', (req, res) => {
     .then(data => {
 
       let arrayTodosJogadores = data.auctionInfo // ARRAY
-      let menorPrecoEncontrado = arrayTodosJogadores.filter(data => data.buyNowPrice < precoBase)
+      let menorPrecoEncontrado = arrayTodosJogadores.filter(data => data.buyNowPrice <= menorPreco)
 
+      if (menorPrecoEncontrado != '') {
+        trade = menorPrecoEncontrado.map(data => data.tradeId)
+        let tradePrimeiro = trade[0]
+        PrecoComprarAgoraPrimeiroJogador = menorPrecoEncontrado.map(data => data.buyNowPrice)
+        let precoPrimeiro = PrecoComprarAgoraPrimeiroJogador[0]
+        comprarJogador(tradePrimeiro, precoPrimeiro)
 
-      if (arrayTodosJogadores.length == 21) {
-        console.log('Promixo tem mais um')
-        console.log(arrayTodosJogadores.length + ' arrayTodosJogadores')
-        console.log('---------------------')
-        console.log(menorPrecoEncontrado.length + ' menorPrecoEncontrado')
-        console.log('---------------------')
+        // trade.forEach(tradeId => {
+        //   PrecoComprarAgoraPrimeiroJogador.forEach(preco => {
+            
+        //   })
+        // })
+
       } else {
-        console.log('Promixo esse ponto acabou')
-        console.log(arrayTodosJogadores.length + ' arrayTodosJogadores')
+        console.log('Não existem Valores definidos')
       }
-      // console.log(menorPrecoEncontrado)
-      // menorPrecoEncontrado.push(menorPrecoEncontrado)
-      // ORDENAR PARA QUE O PRECO MAIS BARATO APARACE NO TODO DO ARRAY
+      if (arrayTodosJogadores.length == 21) {
+        console.log(start)
+        console.log('---------------------')
+        console.log('arrayTodosJogadores ' + arrayTodosJogadores.length)
+        console.log('menorPrecoEncontrado ' + menorPrecoEncontrado.length)
+        console.log('PrecoComprarAgoraPrimeiroJogador' + PrecoComprarAgoraPrimeiroJogador)
+        console.log('idPrimeiroJogadorArray ' + trade)
+        console.log('---------------------')
 
+        setTimeout(() => {
+          res.redirect('/pesquisaMenorPrecoJogador')
+        }, 2000)
 
-      // console.log(menorPrecoEncontrado.length)
+      } else if (arrayTodosJogadores.length < 21) {
+        start = 0
+        console.log('x-x-x-x-x-x-x-x-x-x-x-x-x-x-x')
+        console.log('---------------------')
+        console.log('Ultima Pagina')
+        console.log('---------------------')
+        console.log('arrayTodosJogadores ' + arrayTodosJogadores.length)
+        console.log('menorPrecoEncontrado ' + menorPrecoEncontrado.length)
+        console.log('PrecoComprarAgoraPrimeiroJogador ' + PrecoComprarAgoraPrimeiroJogador)
+        console.log('idPrimeiroJogadorArray ' + trade)
+        console.log('---------------------')
 
+        setTimeout(() => {
+          res.redirect('/pesquisaMenorPrecoJogador')
+        }, 2000)
 
+      } else {
 
-      // let trade = menorPrecoEncontrado.map(data => data.tradeId)
-      // let idPrimeiroJogadorArray = trade[0]
-      // let PrecoComprarAgoraPrimeiroJogador = menorPrecoEncontrado[0].buyNowPrice
-      // let primeiroJogadorArray = menorPrecoEncontrado[0]
-
-
-
-
-      // res.send(menorPrecoEncontrado) // dados de retorno da requisição
-      // console.log(idPrimeiroJogadorArray)
-      // console.log(PrecoComprarAgoraPrimeiroJogador)
-
-
-      // FUNCAO PARA COMPRA DE JOGADOR
-      // comprarJogador(idPrimeiroJogadorArray, PrecoComprarAgoraPrimeiroJogador)
+      }
 
     })
     .catch(error => {
@@ -88,14 +109,19 @@ app.get('/pesquisaMenorPrecoJogador', (req, res) => {
     })
 })
 
-async function comprarJogador(trade1, PrecoComprarAgoraPrimeiroJogador) {
+let calcularPorcentagem = (porcentagem, valor) => {
+  let resultado = porcentagem * valor / 100
+  return resultado
+}
+
+function comprarJogador(trade1, PrecoComprarAgoraPrimeiroJogador) {
 
   const tradeId = trade1;
   const queryParams = { maskedDefId: idPlayer, maxb: PrecoComprarAgoraPrimeiroJogador, start: start };
   const queryString = new URLSearchParams(queryParams).toString();
   const url = `https://utas.mob.v2.fut.ea.com/ut/game/fc24/trade/${tradeId}/bid?${queryString}`;
 
-  await fetch(url, {
+  fetch(url, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -123,9 +149,18 @@ async function comprarJogador(trade1, PrecoComprarAgoraPrimeiroJogador) {
 }
 
 
-app.get('/buscarJogadorParaListar', async (req, res) => {
+// https://utas.mob.v2.fut.ea.com/ut/game/fc24/transfermarket? num=21 & start=0 & type=player & maskedDefId=237679 & macr=3500 & maxb=4000
+app.get('/buscarJogadorParaLance', async (req, res) => {
 
-  const url = 'https://utas.mob.v2.fut.ea.com/ut/game/fc24/squad/active'
+  let idPlayer = 237679
+  let precoCompraAgora = 0
+  let precoLanceInicial = 3000
+  let precoLanceFinal = 4000
+
+  let quaryParams = { maskedDefId: idPlayer, start: 0, type: 'player', micr: precoLanceInicial, macr: precoLanceFinal, maxb: precoCompraAgora }
+  let queryString = new URLSearchParams(quaryParams).toString()
+
+  const url = `${proxy}https://utas.mob.v2.fut.ea.com/ut/game/fc24/transfermarket?${queryString}`
 
   await fetch(url, {
     method: 'GET',
@@ -144,13 +179,97 @@ app.get('/buscarJogadorParaListar', async (req, res) => {
 
       res.send(data)
 
-      console.log(data)
     })
     .catch(error => {
       console.log(error.message)
     })
 })
 
+
+
+
+// BUSCAR JOGADOR NO FUTBIN
+app.get('/buscarJogadorFutbin', async (req, res) => {
+
+  let idPlayer = 243715
+  let queryParams = { player: idPlayer }
+  let stringParans = new URLSearchParams(queryParams)
+  let url = `https://www.futbin.com/24/playerPrices?${stringParans}`
+  console.log(url)
+  res.send(JSON.stringify(url))
+
+})
+
+
+
+
+
+
+
+
+app.get('/pesquisaJogadorPeloPreco', async (req, res) => {
+
+  let start = 0
+
+  let idPlayer = 237679
+  let precoCompraAgora = 5000
+
+  const queryParams = { maskedDefId: idPlayer, maxb: precoCompraAgora, start: start }
+  const queryString = new URLSearchParams(queryParams).toString()
+  const url = `https://utas.mob.v2.fut.ea.com/ut/game/fc24/transfermarket?${queryString}`
+  // start += 20
+
+  fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-UT-SID': token
+    }
+  })
+    .then(data => {
+      if (!data.ok) {
+        throw new Error('HTTP error:' + data.status)
+      }
+      return data.json()
+    })
+    .then(data => {
+
+      let arrayTodosJogadores = data.auctionInfo
+
+      let ordenadoCompraJa = arrayTodosJogadores.sort(function (a, b) {
+        if (a.buyNowPrice < b.buyNowPrice) { // ORDENADO PELO PRECO DE COMPRA JA
+          return -1
+        } else {
+          return true
+        }
+      })
+
+      let ordenadolanceInicial = arrayTodosJogadores.sort(function (a, b) {
+        if (a.startingBid < b.startingBid) { // ORDENADO PELO LACE INICIAL
+          return -1
+        } else {
+          return true
+        }
+      })
+
+      let ordenarTempoRestante = arrayTodosJogadores.sort(function (a, b) {
+        if (a.expires < b.expires) { // ORDENADO PELO LACE INICIAL
+          return -1
+        } else {
+          return true
+        }
+      })
+
+      // porcentagem * valor / 100
+      let dados = ordenarTempoRestante.map(data => data.expires)
+      let arredondarDecimais = dados.map(data => data.toFixed(1))
+
+      res.send(arredondarDecimais)
+    })
+    .catch(error => {
+      console.log(error.message)
+    })
+})
 
 
 
