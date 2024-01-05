@@ -1,24 +1,46 @@
 <%- include("partials/header.ejs")%>
   <%- include("partials/navbar.ejs")%>
 
+    <style>
+      .editavel {
+        visibility: hidden;
+        color: red;
+        font-size: 13px;
+      }
+    </style>
+
     <div class="container mt-4">
-    
-      <form action="#">
-        <div class="form-group">
-          <label for="exampleFormControlInput1">Cliente:</label>
-          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Adicione o nome">
-        </div>
-        <div class="form-group">
-          <label for="exampleFormControlInput1">Endereço:</label>
-          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Adicione o endereço">
+
+      <!-- DATA | HORA -->
+      <!-- <div class="container p-0 d-flex justify-content-between pb-4">
+        <div class="mr-5 ">Data:<span id="data" class="font-weight-bold">00/00/0000</span></div>
+        <div>Hora: <span id="horaPagina" class="font-weight-bold">00:00</span> </div>
+      </div> -->
+
+      <form action="/buscarDados" method="post">
+
+        <!-- INPUT CLIENTE -->
+        <div class="form-group m-0">
+          <div>
+            <label for="cliente">Cliente:</label>
+            <input type="text" name="cliente" class="form-control campos" id="cliente" placeholder="Adicione o nome" oninput="nameValidate()">
+          </div>
+          <span class="editavel spanError">O campo deve ter no minimo 3 caracteres</span>
         </div>
 
-        <div class="d-flex justify-content-between">
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Quantidade:</label>
-            <input type="text" style="width: 200px;" class="form-control" id="exampleFormControlInput1" placeholder="0,000">
+        <!-- INPUT ENDEREÇO -->
+        <div class="form-group m-0">
+          <div>
+            <label for="exampleFormControlInput1">Endereço:</label>
+            <input type="text" name="endereco" class="form-control campos" id="exampleFormControlInput1"
+              placeholder="Adicione o endereço" oninput="enderecoValidate()">
           </div>
-          <div class="form-group" style="width: 200px;">
+          <span class="editavel spanError">O campo deve ter no minimo 3 caracteres</span>
+        </div>
+
+        <!-- <div class="d-flex flex-wrap m-auto">
+
+          <div class="form-group mr-3" style="width: 205px;">
             <label for="exampleFormControlSelect1">Material:</label>
             <select class="form-control" id="exampleFormControlSelect1">
               <option>Areia Fina</option>
@@ -29,37 +51,19 @@
               <option>Brita 2</option>
             </select>
           </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Preço Unitario:</label>
-            <input type="tel" style="width: 200px;" class="form-control" id="exampleFormControlInput1" placeholder="R$ 0,000">
+          <div class="form-group mr-3">
+            <label for="quantidade">Quantidade:</label>
+            <input type="text" style="width: 205px;" class="form-control" id="quantidade" placeholder="0,000">
           </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Quantidade:</label>
-            <input type="text" style="width: 200px;" class="form-control" id="exampleFormControlInput1" placeholder="0,000">
+          <div class="form-group mr-3">
+            <label for="precoUnitario">Preço Unitario:</label>
+            <input type="tel" style="width: 205px;" class="form-control" id="precoUnitario" placeholder="R$ 0,000">
           </div>
-        </div>
-
-        <div class="d-flex justify-content-between">
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Preço Total:</label>
-            <input type="tel" style="width: 200px;" class="form-control" id="exampleFormControlInput1" placeholder="R$ 0,000">
-          </div>
-          <div class="form-group" style="width: 200px;">
-            <label for="exampleFormControlSelect1">Material:</label>
-            <select class="form-control" id="exampleFormControlSelect1">
-              <option>Areia Fina</option>
-              <option>Areia Media</option>
-              <option>Areai Grossa</option>
-              <option>Brita 0</option>
-              <option>Brita 1</option>
-              <option>Brita 2</option>
-            </select>
-          </div>
-          <div class="form-group">
+          <div class="form-group mr-3">
             <label for="exampleFormControlInput1">Telefone:</label>
-            <input type="tel" style="width: 200px;" class="form-control" id="exampleFormControlInput1" placeholder="( xx )  x - xxxx - xxxx">
+            <input type="tel" style="width: 205px;" class="form-control" id="exampleFormControlInput1" placeholder="">
           </div>
-          <div class="form-group" style="width: 200px;">
+          <div class="form-group mr-3" style="width: 205px;">
             <label for="exampleFormControlSelect1">Vendedor:</label>
             <select class="form-control" id="exampleFormControlSelect1">
               <option>Caique</option>
@@ -68,10 +72,8 @@
               <option>Celio de Paula</option>
             </select>
           </div>
-        </div>
 
-        <div class="d-flex justify-content-between">
-          <div class="form-group" style="width: 200px;">
+          <div class="form-group mr-3" style="width: 205px;">
             <label for="exampleFormControlSelect1">Forma Pagamento:</label>
             <select class="form-control" id="exampleFormControlSelect1">
               <option>Dinheiro</option>
@@ -80,7 +82,7 @@
               <option>Pix</option>
             </select>
           </div>
-          <div class="form-group" style="width: 200px;">
+          <!-- <div class="form-group mr-3" style="width: 205px;">
             <label for="exampleFormControlSelect1">Caminhão:</label>
             <select class="form-control" id="exampleFormControlSelect1">
               <option>Toco 12</option>
@@ -92,7 +94,7 @@
               <option>Carreta 65</option>
             </select>
           </div>
-          <div class="form-group" style="width: 200px;">
+          <div class="form-group mr-3" style="width: 205px;">
             <label for="exampleFormControlSelect1">Motoristas:</label>
             <select class="form-control" id="exampleFormControlSelect1">
               <option>Adelson</option>
@@ -102,16 +104,87 @@
               <option>Jhonatan</option>
             </select>
           </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Horario:</label>
-            <input type="text" style="width: 200px;" class="form-control" id="exampleFormControlInput1" placeholder="Horario Saida">
-          </div>
-        </div>
-        <div class="mt-3 float-right">
-          <button type="button" class="btn btn-warning text-white">Adicionar Venda</button>
+        </div> -->
+        <div class="mt-3 d-flex justify-content-between ">
+          <!-- <h3 class="">Valor Total: R$ <span id="resultado">0,00</span></h3> -->
+          <button id="botao" class="btn btn-warning text-white onclick="desicion(event, this)">Adicionar Venda</button>
         </div>
       </form>
 
     </div>
     <br><br>
+    <script>
+
+      let teste = false
+      let campos = document.querySelectorAll('.campos')
+      let spanError = document.querySelectorAll('.spanError')
+
+      function setError(index) {
+        campos[index].style.border = '1.5px solid #e63636'
+        spanError[index].style.visibility = 'visible'
+      }
+
+      function removeError(index) {
+        campos[index].style.border = ''
+        spanError[index].style.visibility = 'hidden'
+      }
+
+      function nameValidate() {
+        if (campos[0].value.length < 5) {
+          setError(0)
+        } else {
+          removeError(0)
+        }
+      }
+
+      function enderecoValidate() {
+        if (campos[1].value.length < 5) {
+          setError(1)
+        } else {
+          removeError(1)
+        }
+      }
+
+
+
+
+
+      // setInterval(() => {
+      //   let quant = quantidade.value.replace(',', '.')
+      //   let preco = precoUnitario.value.replace(',', '.')
+      //   horaData()
+      //   calcularPrecoFinal(quant, preco)
+      // }, 100)
+
+      // function calcularPrecoFinal(quantidade1, precoUnitario1) {
+      //   let res = quantidade1 * precoUnitario1
+      //   resultado.innerHTML = res.toFixed(2)
+      // }
+
+      // function horaData() {
+      //   let data = new Date()
+      //   let hora = data.getHours()
+      //   let minutos = data.getMinutes()
+      //   dataPagina.innerHTML = ` 0${data.getDay()}/0${data.getMonth() + 1}/${data.getFullYear()}`
+      //   horaPagina.innerHTML = `${hora}:${minutos}`
+      // }
+
+      function limparCampos() {
+        campos.forEach(item => {
+          item.value = ''
+        })
+        // selects.forEach(item => {
+        //   item.value = ''
+        // })
+      }
+
+      function desicion(event, form) {
+        event.preventDefault()
+        if (teste) {
+          form.submit()
+          limparCampos()
+        }
+      }
+
+    </script>
     <%- include("partials/footer")%>
