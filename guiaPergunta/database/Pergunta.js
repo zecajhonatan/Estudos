@@ -15,9 +15,9 @@ let pergunta = connection.define('perguntas', { // maneira para cria (TABELAS) c
         allowNull: false // impede que esse campo receba valores nulos, nunca vai esta vazio no banco de dados
     }
 })
-pergunta.sync({ force: false }).then(() => { // sincronizar essa tabela com o banco dedados
-    console.log('Criado tabela Pergunta')
-})
+// pergunta.sync({ force: false }).then(() => { // sincronizar essa tabela com o banco dedados
+//     console.log('Criado tabela Pergunta')
+// })
 module.exports = pergunta
 
 

@@ -50,9 +50,10 @@ connection // faz a autenticação para verificar se esta conectado no banco de 
 app.set('view engine', 'ejs') // nesse comando começo a utilizar o ejs com o express ==> para renderizar o html no meu projeto ==> preciso desse comando para trabalhar juntos  
 app.use(express.static('public')) // comando para fazer que o codigo leia os arquivos de css/img
 app.use(bodyParser.urlencoded({ extended: false })) // esse comando vai traduzir os dados de entrada em uma estrutura javascript para que consiga usar dentro do back-end 
-app.use(bodyParser.json()); // esse comando vai permitir a leitura de dados que forem enviados como (JSON) 
+app.use(bodyParser.json()); // esse comando vai permitir a leitura de dados que forem enviados como (JSON)
 
-app.get('/', function (req, res) {
+// rota principal
+app.get('/', async (req, res) => {
     Pergunta.findAll({ raw: true, order: [['id', 'DESC']] }).then(pergunta => { // comando reponsavel por procurar todas as perguntas na tabela e retornar 
         res.render('index', { // ASC ==> crescente | DESC ==> decrescente  // organiza a ordem da busca
             perguntas: pergunta,
@@ -60,8 +61,22 @@ app.get('/', function (req, res) {
     })
 })
 
-app.get('/perguntar', function (req, res) {
+app.get('/perguntar', (req, res) => {
     res.render('perguntar') // ==> reposnsavel por renderezar as paginas na tela
+})
+
+app.post('/salvarPergunta', function (req, res) { // rota para receber os dados do formulario
+
+    let titulo = req.body.titulo; // recebendo os dados do formulario
+    let descricao = req.body.descricao; // recebendo os dados do formulario
+
+    Pergunta.create({ // metodo create() ==> responsavel por salvar uma pergunta no banco de dados
+        titulo: titulo,
+        descricao: descricao,
+    }).then(() => {
+        res.redirect('/') // comando responsavel por direcionar para pagina desejada
+    })
+    // res.send('Formulario recebido:  Titulo:' + titulo + ' ' + 'Descrição:' + descricao)
 })
 
 app.get('/pergunta/:id', (req, res) => {
@@ -77,7 +92,7 @@ app.get('/pergunta/:id', (req, res) => {
                 where: { perguntaId: pergunta.id },
                 order: [['id', 'DESC']]
             }).then(respostas => {
-                res.render('pergunta', {
+                res.render('pergunta.ejs', {
                     pergunta: pergunta, // a pergunta com o id especifico
                     respostas: respostas, // grupo de respostas em um array
                 })
@@ -87,20 +102,6 @@ app.get('/pergunta/:id', (req, res) => {
             res.redirect('/') // se a pergunta não foi encontrada vai redirecionar para a pagina principal
         }
     })
-})
-
-app.post('/salvarPergunta', function (req, res) { // rota para receber os dados do formulario
-
-    let titulo = req.body.titulo; // recebendo os dados do formulario
-    let descricao = req.body.descricao; // recebendo os dados do formulario
-
-    Pergunta.create({ // metodo create() ==> responsavel por salvar uma pergunta no banco de dados
-        titulo: titulo,
-        descricao: descricao,
-    }).then(() => {
-        res.redirect('/') // comando responsavel por direcionar para pagina desejada
-    })
-    // res.send('Formulario recebido:  Titulo:' + titulo + ' ' + 'Descrição:' + descricao)
 })
 
 app.post('/responder', (req, res) => { // rota para receber os dados do formulario

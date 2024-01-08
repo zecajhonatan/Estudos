@@ -12,9 +12,9 @@ let Resposta = connection.define('respostas', { // maneira de criar uma tabela
     }
 })
 
-Resposta.sync({ force: false }).then(() => {
-    console.log('Criado tabela de Pergunta')
-}) // sincronizar essa tabela com o banco dedados
+// Resposta.sync({ force: false }).then(() => {
+//     console.log('Criado tabela de Pergunta')
+// }) // sincronizar essa tabela com o banco dedados
 module.exports = Resposta
 
 
