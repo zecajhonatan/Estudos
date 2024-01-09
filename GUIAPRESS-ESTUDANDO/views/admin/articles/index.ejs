@@ -16,14 +16,28 @@
           </tr>
         </thead>
         <tbody>
-          <% articles.forEach(articles => { %>
+          <% articles.forEach(articles=> { %>
             <tr>
-              <td><%=articles.id %></td>
-              <td><%=articles.title %></td>
-              <td><%=articles.slug %></td>
-              <td><%=articles.category.title %></td>
-              <td>Ações</td>
+              <td>
+                <%=articles.id %>
+              </td>
+              <td>
+                <%=articles.title %>
+              </td>
+              <td>
+                <%=articles.slug %>
+              </td>
+              <td>
+                <%= articles.category.title%>
+              </td>
+              <td >
+                <form action="/articles/delete" method="post" onsubmit="confirmaDelecao(event, this)">
+                  <input type="hidden" name="id" value="<%= articles.id%>">
+                  <button class="btn btn-danger">Delete</button>
+                </form>
+              </td>
             </tr>
+
             <% }) %>
         </tbody>
       </table>
@@ -33,7 +47,7 @@
       <script>
         function confirmaDelecao(event, form) {
           event.preventDefault()
-          let decision = confirm('Você quer deletar essa categoria ?')
+          let decision = confirm('Você quer deletar essa Artigo ?')
           if (decision) {
             form.submit()
           }

@@ -23,6 +23,8 @@ const article = connection.define('articles', {
 category.hasMany(article) // a tabela categoria (tem muitos) tabela artigos
 article.belongsTo(category) // a tabela artigo (pertence a) tabela categoria
 
-// article.sync({force: false})
+// article.sync({force: false}) // verifica se existe uma tabela criada no banco de dados, se não tiver cria, se tiver nao cria
 
 export default article
+
+
