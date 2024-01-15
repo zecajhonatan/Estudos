@@ -2,22 +2,16 @@ import Sequelize from "sequelize";
 import connection from '../database/database.js'
 
 // criação da tabela no banco de dados
-const category = connection.define('categories', {
-  title: {
+const User = connection.define('users', {
+  email: {
     type: Sequelize.STRING,
     allowNull: false // não permite ter dados nulos na coluna
   },
-  slug: {
+  password: {
     type: Sequelize.STRING,
     allowNull: false
   }
 })
 
-// category.sync({force: false}) // sincronização --> responsavel por criar o model/tabela no banco
-export default category
-
-
-
-
-
-
+// User.sync({force: false}) // sincronização --> responsavel por criar o model/tabela no banco
+export default User

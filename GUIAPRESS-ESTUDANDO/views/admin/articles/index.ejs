@@ -6,6 +6,7 @@
       <hr>
       <a href="/admin/articles/new" class="btn btn-success">Criar novo Artigo</a><br><br>
       <table class="table text-center table-bordered">
+
         <thead>
           <tr>
             <th>Id</th>
@@ -15,6 +16,7 @@
             <th>Ações</th>
           </tr>
         </thead>
+
         <tbody>
           <% articles.forEach(articles=> { %>
             <tr>
@@ -30,7 +32,10 @@
               <td>
                 <%= articles.category.title%>
               </td>
-              <td >
+              <td class="d-flex justify-content-around">
+
+                <a href="/admin/articles/edit/<%=articles.id %>" class="btn btn-warning">Editar</a>
+
                 <form action="/articles/delete" method="post" onsubmit="confirmaDelecao(event, this)">
                   <input type="hidden" name="id" value="<%= articles.id%>">
                   <button class="btn btn-danger">Delete</button>
@@ -40,6 +45,7 @@
 
             <% }) %>
         </tbody>
+
       </table>
     </div>
     <%- include ('../../partials/footer.ejs')%>
