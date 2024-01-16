@@ -2,13 +2,14 @@ import express from 'express'
 let router = express.Router()
 import tableCategory from './Category.js'
 import slugify from 'slugify'
+import adminAuth from '../midllewares/adminAuth.js'
 
-router.get('/admin/categories/new', (req, res) => {
+router.get('/admin/categories/new',adminAuth, (req, res) => {
   res.render('admin/categories/new.ejs')
 })
 
 // rota para salvar as categorias no banco de dados
-router.post('/categories/save', (req, res) => {
+router.post('/categories/save',adminAuth, (req, res) => {
   let title = req.body.title
   if (title != '') {
     tableCategory.create({
@@ -23,7 +24,7 @@ router.post('/categories/save', (req, res) => {
 })
 
 // renderizar todas as categorias na tela
-router.get('/admin/categories', (req, res) => {
+router.get('/admin/categories',adminAuth, (req, res) => {
   tableCategory.findAll().then(categories => { // encontre tudo que tem nessa tabela no banco de dados
     res.render('admin/categories/index.ejs', {
       categories: categories
@@ -32,7 +33,7 @@ router.get('/admin/categories', (req, res) => {
 })
 
 // rota para editar as categorias
-router.get('/admin/categories/edit/:id', (req, res) => {
+router.get('/admin/categories/edit/:id',adminAuth, (req, res) => {
   let id = req.params.id
   if (isNaN(id)) {
     res.redirect('/admin/categories')
@@ -51,7 +52,7 @@ router.get('/admin/categories/edit/:id', (req, res) => {
 })
 
 // faz a atualização dos dados no banco de dados
-router.post('/categories/update', (req, res) => {
+router.post('/categories/update',adminAuth, (req, res) => {
   let id = req.body.id
   let title = req.body.title
   tableCategory.update({ title: title, slug: slugify(title) }, {
@@ -64,7 +65,7 @@ router.post('/categories/update', (req, res) => {
 })
 
 // rota para deletar as categorias
-router.post('/categories/delete', (req, res) => {
+router.post('/categories/delete',adminAuth, (req, res) => {
   let id = req.body.id
   if (id != undefined) { // verifica se e null
     if (!isNaN(id)) { // verifica se e um numero

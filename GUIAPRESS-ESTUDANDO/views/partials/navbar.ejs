@@ -10,4 +10,21 @@
       <a class="nav-link" href="/admin/articles">Articles</a>
     </li>
   </ul>
+  <ul class="navbar-nav  ml-auto ">
+    <form action="/logout" method="get" onsubmit="confirmaSaida(event, this)">
+      <button class="btn btn-dark btn-sm" type="submit">Logout</button>
+    </form>
+  </ul>
 </nav><br><br>
+<script>
+
+  function confirmaSaida(event, form) {
+    event.preventDefault();
+    let decision = confirm('Tem certeza que dejesa Sair ?')
+    if (decision) {
+      form.submit()
+    }
+  }
+
+
+</script>

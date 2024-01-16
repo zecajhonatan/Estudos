@@ -1,10 +1,12 @@
 import express from 'express'
 let router = express.Router()
-import tableCategories from '../categories/Category.js'
+import tableCategories from '../categories/Category.js' // tabela de categorias
 import tableArticles from './Article.js' // tabela de artigos
 import slugify from 'slugify'
+import adminAuth from '../midllewares/adminAuth.js'
 
-router.get('/admin/articles', (req, res) => {
+// rota responsavel por renderizar os artigos na tela
+router.get('/admin/articles', adminAuth, (req, res) => {
   tableArticles.findAll({
     include: [{ model: tableCategories }]
   }).then(article => {
@@ -14,7 +16,8 @@ router.get('/admin/articles', (req, res) => {
   })
 })
 
-router.get('/admin/articles/new', (req, res) => {
+// rota responsavel por criar um novo artigo
+router.get('/admin/articles/new', adminAuth, (req, res) => {
   tableCategories.findAll().then(categories => {
     res.render('admin/articles/new.ejs', {
       categories: categories
@@ -22,7 +25,8 @@ router.get('/admin/articles/new', (req, res) => {
   })
 })
 
-router.post('/articles/save', (req, res) => {
+// rota responsavel por salvar os dados no banco de dados
+router.post('/articles/save',adminAuth, (req, res) => {
   let title = req.body.title
   let body = req.body.body
   let category = req.body.category
@@ -36,7 +40,8 @@ router.post('/articles/save', (req, res) => {
   })
 })
 
-router.get('/admin/articles/edit/:id', (req, res) => {
+// rota responsavel por editar os dados no banco de dados
+router.get('/admin/articles/edit/:id',adminAuth, (req, res) => {
   let id = req.params.id
   if (isNaN(id)) { // VERIFICA SE NÃO E UM NUMERO
     res.redirect('admin/index.ejs')
@@ -58,7 +63,7 @@ router.get('/admin/articles/edit/:id', (req, res) => {
 })
 
 // rota responsavel por atualizar os dados no banco de dados
-router.post('/articles/updade', (req, res) => {
+router.post('/articles/updade',adminAuth, (req, res) => {
   let id = req.body.id
   let title = req.body.title
   let body = req.body.body
@@ -78,8 +83,8 @@ router.post('/articles/updade', (req, res) => {
   })
 })
 
-// rota para deletar as categorias
-router.post('/articles/delete', (req, res) => {
+// rota responsavel por deletar os artigos no banco de dados
+router.post('/articles/delete',adminAuth, (req, res) => {
   let id = req.body.id
   if (id != undefined) { // verifica se e null
     if (!isNaN(id)) { // verifica se e um numero
@@ -98,7 +103,8 @@ router.post('/articles/delete', (req, res) => {
   }
 })
 
-router.get('/articles/page/:num', (req, res) => {
+// rota responsavel pela paginação de todos os artigos nas páginas
+router.get('/articles/page/:num',adminAuth, (req, res) => {
   let page = req.params.num
   let offset = 0
   if (isNaN(page) || page == 1) {
@@ -107,7 +113,7 @@ router.get('/articles/page/:num', (req, res) => {
     offset = (parseInt(page) - 1) * 4
   }
   // retorna todos os elementos da tabela no banco de dados e a quantidade de elementos existentes nessa tabela
-  tableArticles.findAndCountAll({
+  tableArticles.findAndCountAll({ // encontre e conte tudo
     order: [['id', 'DESC']],
     // retorna dados a partir de um valor
     offset: offset,
@@ -115,7 +121,7 @@ router.get('/articles/page/:num', (req, res) => {
     limit: 4,
   }).then(articles => {
     var next
-    if (offset + 4 >= articles.count) { // count retorna a quantidade de elemento que tem dentro da tabela expecifica
+    if (offset + 4 >= articles.count) { // count retorna a quantidade de elemento que tem dentro da tabela de artigos
       next = false
     } else {
       next = true

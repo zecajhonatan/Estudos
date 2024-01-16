@@ -8,12 +8,11 @@ import User from './user/user.js'
 import session from 'express-session'
 
 app.use(session({
-  secret: 'zecajhonatan',
+  secret: 'admin',
   cookie: {
-    maxAge: 30000
+    maxAge: 3000000 // tempo limite para que os dados da sessão expire --> e passado em milisegundos
   }
 }))
-
 
 // para usar as variaveis de ambiente
 import dotEnv from 'dotenv'
@@ -26,7 +25,7 @@ import bodyParser from 'body-parser' // buscar dados no front-end
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-//importação dos arquivos responsaveis por armazanar as rotas separadas em outros arquivos
+//importação dos arquivos responsaveis por armazenar as rotas separadas em outros arquivos
 import categoriesController from './categories/categoriesController.js'
 import articlesController from './articles/articlesController.js'
 import usersController from './user/usersController.js'
@@ -43,13 +42,28 @@ app.set('view engine', 'ejs')
 // diz ao express usar os arquivos estaticos
 app.use(express.static('public'))
 
-app.get('/session', (req, res) => {
+// rota responsavel por criar as sessões que são relacionadas ao cookes
+/* app.get('/session', (req, res) => {
+  req.session.treinamento = 'Formação node.js'
+  req.session.ano = 2024
+  req.session.email = 'zecajhonatan@gmail.com'
+  req.session.user = {
+    username: 'zecajhonatan',
+    email: 'zecajhonatan@gmail.com',
+    id: 10
+  }
+  res.send('Sessão gerada!!!')
+}) */
 
-})
-
-app.get('/leitura', (req, res) => {
-  
-})
+// rota responsavel por ler as sessões que são relacionadas ao cookes
+/* app.get('/leitura', (req, res) => {
+  res.json({
+    treinamento: req.session.treinamento,
+    ano: req.session.ano,
+    email: req.session.email,
+    user: req.session.user,
+  })
+}) */
 
 // rota principal do app
 app.get('/', (req, res) => {
@@ -89,7 +103,7 @@ app.get('/:slug', (req, res) => {
   })
 })
 
-// busca a categoria com todos os artigos relacionados a ela
+// rota que busca a categoria com todos os artigos relacionados a ela
 app.get('/category/:slug', (req, res) => {
   let slug = req.params.slug
   Category.findOne({
