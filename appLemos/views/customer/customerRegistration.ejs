@@ -1,0 +1,81 @@
+<!-- cadastro clientes -->
+<%- include("../partials/header.ejs")%>
+  <%- include("../partials/navbar.ejs")%>
+
+    <div class="container mt-4">
+
+      <form action="/customer/save" method="post">
+
+        <!-- CLIENTE -->
+        <div class="form-group">
+          <div>
+            <label for="cliente">Cliente:</label>
+            <input type="text" required name="cliente" class="form-control" id="cliente"
+              placeholder="Adicione o nome">
+          </div>
+        </div>
+
+        <!-- ENDEREÇO -->
+        <div class="form-group">
+          <div>
+            <label for="endereco">Endereço:</label>
+            <input type="text" required name="endereco" class="form-control" id="endereco"
+              placeholder="Adicione o endereço">
+          </div>
+        </div>
+
+        <div class="container d-flex justify-content-between align-items-center p-0 flex-wrap mb-5">
+          <!-- CPF -->
+          <div class="form-group">
+            <div class="">
+              <label for="endereco">CPF:</label>
+              <input type="text" style="width: 205px;" required name="cpf" class="form-control" id="cpf"
+                placeholder="000.000.000 - 00">
+            </div>
+          </div>
+          <!-- TELEFONE -->
+          <div class="form-group">
+            <label for="telefone">Telefone:</label>
+            <input type="tel" style="width: 205px;" required class="form-control" name="telefone"
+              id="telefone" placeholder="(00)-0-0000-0000 ">
+          </div>
+          <!-- VENDEDOR -->
+          <div class="form-group" style="width: 205px;">
+            <label for="vendedor">Vendedor:</label>
+            <select class="form-control" required name="vendedor" id="vendedor">
+              <option selected></option>
+              <option>Caique</option>
+              <option>Paulo Thiago</option>
+              <option>Marcus Paulo</option>
+              <option>Celio de Paula</option>
+            </select>
+          </div>
+          <!-- FORMA PAGAMENTO -->
+          <div class="form-group" style="width: 205px;">
+            <label for="formaPagamento">Forma Pagamento:</label>
+            <select class="form-control" required name="formaPagamento" id="formaPagamento">
+              <option selected></option>
+              <option>Dinheiro</option>
+              <option>Cartão Credito</option>
+              <option>Cartão Debito</option>
+              <option>Pix</option>
+            </select>
+          </div>
+        </div>
+    </div>
+
+    <div class="container mt-5 d-flex p-0">
+      <button id="botao" type="submit" class="btn btn-warning text-white ml-auto mr-3">Cadastrar Cliente</button>
+    </div>
+
+    </form>
+
+    </div>
+    <br><br>
+    <script>
+
+
+
+    </script>
+
+    <%- include("../partials/footer")%>

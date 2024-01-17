@@ -1,10 +1,15 @@
 import express from 'express'
 import bodyParser from 'body-parser'
+import connection from './database/database.js'
+
 let app = express()
 const PORT = 3000
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+import CustomerRouteControle from './customerBase/customerRouteControl.js'
+app.use('/', CustomerRouteControle)
 
 // diz ao express que o motor de renderização do html vai ser o ejs
 app.set('view engine', 'ejs')
@@ -13,12 +18,12 @@ app.use(express.json())
 
 // ROTA PRINCIPAL
 app.get('/', (req, res) => {
-  res.render('cadastro')
+  res.render('./customer/customerList.ejs')
 })
 
-app.post('/buscarDados', (req, _) => {
+app.post('/buscarDados', (req, res) => {
   let dados = req.body
-  console.log(dados)
+  res.json(dados)
 })
 
 

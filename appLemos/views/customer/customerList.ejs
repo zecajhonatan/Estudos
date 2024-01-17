@@ -1,0 +1,50 @@
+<%- include ("../partials/header.ejs")%>
+  <%- include ("../partials/navbar.ejs")%>
+    <div class="container"><br>
+      <h2>Lista Clientes</h2><br>
+      <table class="table">
+        <thead>
+          <tr style="text-align: center;">
+            <th>Cliente</th>
+            <th>Endereço</th>
+            <th>Cpf</th>
+            <th>Telefone</th>
+            <th>Vendedor</th>
+            <th>Modo Pagamento</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% customers.forEach(customer=> {%>
+            <tr style="text-align: center;">
+              <td>
+                <%= customer.customers %>
+              </td>
+              <td>
+                <%= customer.address %>
+              </td>
+              <td>
+                <%= customer.cpf %>
+              </td>
+              <td>
+                <%= customer.telephone %>
+              </td>
+              <td>
+                <%= customer.seller %>
+              </td>
+              <td>
+                <%= customer.paymentMethod %>
+              </td>
+              <td>
+                <form action="/customer/delete" method="post">
+                  <input type="hidden" name="id" value="<%= customer.id %>">
+                  <button class="btn btn-danger btn-sm">Deletar</button>
+                </form>
+              </td>
+            </tr>
+            <%})%>
+
+        </tbody>
+      </table>
+    </div>
+    <%- include ("../partials/footer.ejs")%>
