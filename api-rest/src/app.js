@@ -1,6 +1,5 @@
 import express from "express"
 import routes from "./routes.js"
-
 let app = express()
 
 // indica para o express ler body(corpo) com formato json

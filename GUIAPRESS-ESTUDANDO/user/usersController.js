@@ -44,7 +44,6 @@ router.get('/login', (req, res) => {
 router.post('/authenticate', (req, res) => {
   let email = req.body.email
   let password = req.body.password
-
   User.findOne({ where: { email: email }, raw: true }).then(user => {
     if (user != undefined) { // se existe um usuario com esse e-mail
       // validar a senha

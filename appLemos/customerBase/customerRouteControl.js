@@ -8,10 +8,28 @@ router.get('/customer/new', (req, res) => {
 })
 
 router.get('/customer/list', (req, res) => {
-  customerTable.findAll().then(customers => {
+  customerTable.findAll({ order: [['id', 'DESC']] }).then(customers => {
     res.render('customer/customerList.ejs', {
       customers: customers
     })
+  })
+})
+
+router.get('/customer/edit/:id', async (req, res) => {
+  let id = req.params.id
+  if (isNaN(id)) {
+    res.redirect('/customer/list')
+  }
+  await customerTable.findByPk(id).then(customer => {
+    if (customer != undefined) {
+      res.render('customer/customerEdit.ejs', {
+        customer: customer
+      })
+    } else {
+      res.redirect('/customer/list')
+    }
+  }).catch(error => {
+    res.redirect('/customer/list')
   })
 })
 
@@ -27,17 +45,19 @@ router.post('/customer/save', (req, res) => {
   }).then(() => {
     res.redirect('/customer/list')
   }).catch(error => {
-    console.log({'error': error.message})
+    console.log({ 'error': error.message })
   })
 })
+
+
 
 router.post('/customer/delete', (req, res) => {
   let id = req.body.id
   console.log(id)
-  if(id != undefined) {
-    if(!isNaN(id)) {
+  if (id != undefined) {
+    if (!isNaN(id)) {
       customerTable.destroy({
-        where: { id: id}
+        where: { id: id }
       }).then(() => {
         res.redirect('/customer/list')
       })
@@ -48,16 +68,5 @@ router.post('/customer/delete', (req, res) => {
     res.redirect('/customer/list')
   }
 })
-
-
-
-
-
-
-
-
-
-
-
 
 export default router

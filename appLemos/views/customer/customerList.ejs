@@ -1,7 +1,7 @@
 <%- include ("../partials/header.ejs")%>
   <%- include ("../partials/navbar.ejs")%>
     <div class="container"><br>
-      <h2>Lista Clientes</h2><br>
+      <h2>Lista clientes cadastrados</h2><br>
       <table class="table">
         <thead>
           <tr style="text-align: center;">
@@ -35,11 +35,15 @@
               <td>
                 <%= customer.paymentMethod %>
               </td>
-              <td>
-                <form action="/customer/delete" method="post">
+              <td class="d-flex justify-content-around">
+                
+                <a class="btn btn-warning btn-sm" href="/customer/edit/<%= customer.id %>">Editar</a>
+
+                <form action="/customer/delete" method="post" onsubmit="verification(event, this)">
                   <input type="hidden" name="id" value="<%= customer.id %>">
                   <button class="btn btn-danger btn-sm">Deletar</button>
                 </form>
+
               </td>
             </tr>
             <%})%>
@@ -48,3 +52,12 @@
       </table>
     </div>
     <%- include ("../partials/footer.ejs")%>
+    <script>
+      function verification(event, form) {
+        event.preventDefault()
+        let confirmation = confirm('Tem certeza que deseja Deletar')
+        if (confirmation) {
+          form.submit()
+        }
+      }
+    </script>
