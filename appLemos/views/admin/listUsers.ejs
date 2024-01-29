@@ -1,0 +1,26 @@
+<%- include ("../partials/header.ejs")%>
+  <%- include ("../partials/navbar.ejs")%>
+    <div class="container"><br>
+      <h2>Lista Usuarios</h2><br>
+      <table class="table">
+        <thead>
+          <tr style="text-align: center;">
+            <th>Id</th>
+            <th>E-mail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach(user=> {%>
+            <tr style="text-align: center;">
+              <td>
+                <%= user.id %> <!-- ID -->
+              </td>
+              <td>
+                <%= user.email %> <!-- E-MAIL -->
+              </td>
+            </tr>
+            <%})%>
+        </tbody>
+      </table>
+    </div>
+    <%- include ("../partials/footer.ejs")%>

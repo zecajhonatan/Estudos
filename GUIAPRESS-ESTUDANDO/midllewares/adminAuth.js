@@ -5,5 +5,4 @@ function adminAuth(req, res, next) { // solicitação | resposta | proximo
     res.redirect('/login')
   }
 }
-
 export default adminAuth

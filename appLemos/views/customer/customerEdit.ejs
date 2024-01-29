@@ -3,7 +3,7 @@
   <%- include ("../partials/navbar.ejs") %>
     <div class="container mt-4">
 
-      <form action="/customer/save" method="post">
+      <form action="/customer/update" method="post">
 
         <!-- CLIENTE -->
         <div class="form-group">
@@ -64,6 +64,7 @@
     </div>
 
     <div class="container mt-5 d-flex p-0">
+      <input type="hidden" name="id" value="<%= customer.id %>">
       <button id="botao" type="submit" class="btn btn-warning text-white ml-auto mr-3">Editar Cliente</button>
     </div>
     </form>

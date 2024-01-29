@@ -6,18 +6,28 @@
   <title>Socket.IO chat</title>
   <style>
     body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       margin: 0;
-      padding-bottom: 3rem;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
 
+    #base {
+      width: 300px;
+      height: 500px;
+      border: 1px solid #000;
+      display: flex;
+      flex-direction: column;
+      /* align-items: flex-start;
+      justify-content: center; */
+    }
+
     #form {
+      width: 100%;
       background: rgba(0, 0, 0, 0.15);
       padding: 0.25rem;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
       display: flex;
       height: 3rem;
       box-sizing: border-box;
@@ -47,53 +57,117 @@
     }
 
     #messages {
+      width: 100%;
+      height: 100%;
+      /* border: 2px solid red; */
       list-style-type: none;
       margin: 0;
       padding: 0;
+      overflow-y: scroll;
     }
 
     #messages>li {
       padding: 0.5rem 1rem;
+      overflow-wrap: break-word;
     }
 
     #messages>li:nth-child(odd) {
       background: #efefef;
     }
+
+    #usuarios {
+      padding: 10px;
+    }
   </style>
 </head>
 
 <body>
-  <ul id="messages"></ul>
+  <div id="base">
 
-  <form id="form" action="#">
-    <input id="input" autocomplete="off" /><button>Send</button>
-  </form>
+    <select id="usuarios">
+      <option value="0">Todos</option>
+    </select>
 
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-    const socket = io();
+    <ul id="messages"></ul>
 
-    let form = document.getElementById("form")
-    let input = document.getElementById("input")
-    let messages = document.getElementById("messages")
+    <form id="form" action="#">
+      <input id="input" autocomplete="off" />
+      <button>Send</button>
+    </form>
+  </div>
 
-    form.addEventListener("submit", (e) => {
-      e.preventDefault()
 
-      if (input.value) {
-        socket.emit("chatMenssage", input.value)
-      }
-      input.value = ""
-    })
 
-    socket.on("chatMenssage", (msg) => {
-      let li = document.createElement("li")
-      li.textContent = msg
-      messages.appendChild(li)
-      window.scrollTo(0, document.body.scrollHeight)
-    })
-
-  </script>
 </body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+
+  let form = document.getElementById("form")
+  let input = document.getElementById("input")
+  let messages = document.getElementById("messages")
+  let usuarios = document.getElementById("usuarios")
+
+
+  socket.on("clientesConectados", (clientesConectados) => {
+    usuarios.textContent = " "
+    clientesConectados.forEach((element, index) => {
+      let option = document.createElement("option")
+      option.value = element
+      option.textContent = `cliente: ${index}`
+      usuarios.appendChild(option)
+    });
+  })
+
+  socket.on("clientesDesconectados", (clientesDesconectados) => {
+    usuarios.textContent = " "
+    clientesDesconectados.forEach((element, index) => {
+      let option = document.createElement("option")
+      option.value = element
+      option.textContent = `cliente ${index}`
+      usuarios.appendChild(option)
+    });
+  })
+
+
+  // ENVIANDO MENSAGEM PARA O BECKEND
+  form.addEventListener("submit", (e) => {
+    e.preventDefault()
+    console.log(usuarios.value)
+    let verificar = false
+    /* COM ESSE METODO (EMIT) EU MANDO MENSAGEM PARA O SERVIDOR */
+    if (input.value) {
+      // if (verificar) {
+        socket.emit("mensagemId", usuarios.value, input.value)
+      // }
+      // socket.emit("chatMenssage", input.value)
+    }
+    input.value = ""
+  })
+
+
+  // RECEBENDO A MENSAGEM DO BECKEND --> E LISTANDO NA TELA 
+  // socket.on("chatMenssage", (msg) => {
+  //   let li = document.createElement("li")
+  //   li.textContent = msg
+  //   messages.appendChild(li)
+  //   window.scrollTo(0, document.body.scrollHeight)
+  // })
+
+
+
+  socket.on("mensagemId", (msg) => {
+    let li = document.createElement("li")
+    li.textContent = msg
+    messages.appendChild(li)
+    // window.scrollTo(0, document.body.scrollHeight)
+  })
+
+</script>
 
 </html>
+
+
+
+
+

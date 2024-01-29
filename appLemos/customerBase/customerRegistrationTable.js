@@ -29,5 +29,5 @@ const customer = connection.define('customer', {
   }
 })
 
-customer.sync({force: false})
+// customer.sync({force: false})
 export default customer

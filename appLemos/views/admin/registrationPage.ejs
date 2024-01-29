@@ -1,0 +1,20 @@
+<%- include ("../partials/header.ejs")%>
+<br>
+<div class="container mt-5">
+  <div class="row align-items-center">
+    <div class="col-md-10 mx-auto col-lg-5">
+      <form action="/admin/registration/create" method="post" class="p-4 p-md-5 rounded-1 bg-light">
+        <div class="form-floating mb-3">
+          <label for="inputEmail">E-mail</label>
+          <input type="email" required class="form-control" name="email" id="inputEmail" placeholder="E-mail">
+        </div>
+        <div class="form-floating mb-3">
+          <label for="inputPassword">Senha</label>
+          <input type="password" required class="form-control" name="password" id="inputPassword" placeholder="Senha">
+        </div>
+        <button class="w-100 btn btn-lg btn-dark" type="submit">Cadastrar</button>
+      </form>
+    </div>
+  </div>
+</div>
+<%- include ("../partials/footer.ejs")%>

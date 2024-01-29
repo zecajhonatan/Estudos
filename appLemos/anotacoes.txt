@@ -1,0 +1,8 @@
+os primeiros passos no aap da lemos 
+
+* criar inteface frontend para cadastro de usuario com bootstrap --> ok
+* criar tabela para receber esses dados no banco de dados my sql
+* criar middlewere para acesso as paginas
+
+
+

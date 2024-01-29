@@ -2,12 +2,21 @@
 import express from 'express'
 let router = express.Router()
 import customerTable from './customerRegistrationTable.js'
+import session from 'express-session'
+import adminAuth from '../middleweres/adminAuth.js'
 
-router.get('/customer/new', (req, res) => {
+router.use(session({
+  secret: 'admin',
+  cookie: {
+    maxAge: 20000,
+  }
+}))
+
+router.get('/customer/new', adminAuth, (req, res) => {
   res.render('customer/customerRegistration.ejs')
 })
 
-router.get('/customer/list', (req, res) => {
+router.get('/customer/list', adminAuth, (req, res) => {
   customerTable.findAll({ order: [['id', 'DESC']] }).then(customers => {
     res.render('customer/customerList.ejs', {
       customers: customers
@@ -15,12 +24,12 @@ router.get('/customer/list', (req, res) => {
   })
 })
 
-router.get('/customer/edit/:id', async (req, res) => {
+router.get('/customer/edit/:id', adminAuth, (req, res) => {
   let id = req.params.id
   if (isNaN(id)) {
     res.redirect('/customer/list')
   }
-  await customerTable.findByPk(id).then(customer => {
+  customerTable.findByPk(id).then(customer => {
     if (customer != undefined) {
       res.render('customer/customerEdit.ejs', {
         customer: customer
@@ -36,8 +45,8 @@ router.get('/customer/edit/:id', async (req, res) => {
 router.post('/customer/save', (req, res) => {
   let { cliente, endereco, cpf, telefone, vendedor, formaPagamento } = req.body
   customerTable.create({
-    customers: cliente.toUpperCase(),
-    address: endereco.toUpperCase(),
+    customers: cliente,
+    address: endereco,
     cpf: cpf,
     telephone: telefone,
     seller: vendedor,
@@ -49,7 +58,15 @@ router.post('/customer/save', (req, res) => {
   })
 })
 
-
+router.post('/customer/update', (req, res) => {
+  let id = req.body.id
+  let { cliente, endereco, cpf, telefone, vendedor, formaPagamento } = req.body
+  customerTable.update({ customers: cliente, address: endereco, cpf: cpf, telephone: telefone, seller: vendedor, paymentMethod: formaPagamento }, {
+    where: { id: id }
+  }).then(() => {
+    res.redirect('/customer/list')
+  })
+})
 
 router.post('/customer/delete', (req, res) => {
   let id = req.body.id
