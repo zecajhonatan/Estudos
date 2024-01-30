@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize'
 
-const connection = new Sequelize('lemos', 'root', 'Juliae090320132023', {
+const connection = new Sequelize('lemos', 'root', '123456', {
   host: 'localhost',
   dialect: 'mysql',
   timezone: '-03:00'

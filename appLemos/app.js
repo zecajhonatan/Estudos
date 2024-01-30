@@ -11,13 +11,15 @@ app.use(bodyParser.json())
 
 import CustomerRouteControle from './customerBase/customerRouteControl.js'
 import Users from './admin/users.js'
+import Drives from './driverRegistration/tableDiver.js'
 app.use('/', CustomerRouteControle)
 app.use('/', Users)
+app.use('/', Drives)
 
 app.use(session({
   secret: 'admin',
   cookie: {
-    maxAge: 60000,
+    maxAge: 600000,
   }
 }))
 

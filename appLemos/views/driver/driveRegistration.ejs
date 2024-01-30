@@ -1,0 +1,34 @@
+<!-- cadastro motoristas -->
+<%- include("../partials/header.ejs")%>
+  <%- include("../partials/navbar.ejs")%>
+
+    <div class="container mt-4">
+
+      <form action="/customer/save" method="post">
+
+        <!-- MOTORISTA -->
+        <div class="form-group">
+          <div>
+            <label for="cliente">Motorista:</label>
+            <input type="text" required name="cliente" class="form-control" id="cliente"
+              placeholder="Adicione o nome">
+          </div>
+        </div>
+
+        <!-- ENDEREÇO -->
+        <div class="form-group">
+          <div>
+            <label for="endereco">CPF:</label>
+            <input type="text" required name="cpf" class="form-control" id="cpf"
+              placeholder="Adicione o cpf">
+          </div>
+        </div>
+
+    <div class="container mt-5 d-flex p-0">
+      <button id="botao" type="submit" class="btn btn-warning text-white ml-auto mr-3">Cadastrar Motorista</button>
+    </div>
+    </form>
+    </div>
+    <br><br>
+
+    <%- include("../partials/footer")%>
