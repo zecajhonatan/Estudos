@@ -1,6 +1,6 @@
-import express, { json } from 'express'
+import express from 'express' 
 import mysql from 'mysql'
-let app = express()
+let app = express() 
 
 const PORT = 3000
 

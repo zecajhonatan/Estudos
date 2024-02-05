@@ -3,72 +3,65 @@
   <%- include("../partials/navbar.ejs")%>
 
     <div class="container mt-4">
-
+      <h3>Cadastrar Cliente</h3>
       <form action="/customer/save" method="post">
-
-        <!-- CLIENTE -->
-        <div class="form-group">
-          <div>
-            <label for="cliente">Cliente:</label>
-            <input type="text" required name="cliente" class="form-control" id="cliente"
-              placeholder="Adicione o nome">
+        <div class="row">
+          <!-- CLIENTE -->
+          <div class="form-group col-lg-6">
+            <div>
+              <label for="cliente">Cliente:</label>
+              <input type="text" required name="cliente" class="form-control" id="cliente"
+                placeholder="Adicione o nome">
+            </div>
           </div>
-        </div>
-
-        <!-- ENDEREÇO -->
-        <div class="form-group">
-          <div>
-            <label for="endereco">Endereço:</label>
-            <input type="text" required name="endereco" class="form-control" id="endereco"
-              placeholder="Adicione o endereço">
+          <!-- ENDEREÇO -->
+          <div class="form-group col-lg-6">
+            <div>
+              <label for="endereco">Endereço:</label>
+              <input type="text" required name="endereco" class="form-control" id="endereco"
+                placeholder="Adicione o endereço">
+            </div>
           </div>
-        </div>
-
-        <div class="container d-flex justify-content-between align-items-center p-0 flex-wrap mb-5">
           <!-- CPF -->
-          <div class="form-group">
-            <div class="">
+          <div class="form-group col-lg-3">
+            <div>
               <label for="endereco">CPF:</label>
-              <input type="text" style="width: 205px;" required name="cpf" class="form-control" id="cpf"
+              <input type="text" required name="cpf" maxlength="14" class="form-control" id="cpf"
                 placeholder="000.000.000 - 00">
             </div>
           </div>
           <!-- TELEFONE -->
-          <div class="form-group">
+          <div class="form-group col-lg-3">
             <label for="telefone">Telefone:</label>
-            <input type="tel" style="width: 205px;" required class="form-control" name="telefone"
-              id="telefone" placeholder="(00)-0-0000-0000 ">
+            <input type="tel" required class="form-control" maxlength="15" name="telefone" id="telefone"
+              placeholder="(xx) 00000-0000 ">
           </div>
-          <!-- VENDEDOR -->
-          <div class="form-group" style="width: 205px;">
-            <label for="vendedor">Vendedor:</label>
-            <select class="form-control" required name="vendedor" id="vendedor">
-              <option selected></option>
-              <option>Caique</option>
-              <option>Paulo Thiago</option>
-              <option>Marcus Paulo</option>
-              <option>Celio de Paula</option>
-            </select>
-          </div>
-          <!-- FORMA PAGAMENTO -->
-          <div class="form-group" style="width: 205px;">
-            <label for="formaPagamento">Forma Pagamento:</label>
-            <select class="form-control" required name="formaPagamento" id="formaPagamento">
-              <option selected></option>
-              <option>Dinheiro</option>
-              <option>Cartão Credito</option>
-              <option>Cartão Debito</option>
-              <option>Pix</option>
-            </select>
+          <div class="container mt-5 d-flex justify-content-between">
+            <a href="/customer/list" class="btn btn-success text-white">Lista Clientes</a>
+            <button id="botao" type="submit" class="btn btn-warning text-white ml-auto mr-3">Cadastrar Cliente</button>
           </div>
         </div>
+      </form>
     </div>
+    <script>
 
-    <div class="container mt-5 d-flex p-0">
-      <button id="botao" type="submit" class="btn btn-warning text-white ml-auto mr-3">Cadastrar Cliente</button>
-    </div>
-    </form>
-    </div>
-    <br><br>
+      let cpf = document.querySelector('#cpf')
+      let telefone = document.querySelector('#telefone')
+
+      cpf.addEventListener("input", (event) => {
+        let cpfValue = event.target.value.replace(/\D/g, '')
+        let cpfWithMask = cpfValue.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
+        event.target.value = cpfWithMask
+      })
+
+      telefone.addEventListener("input", (event) => {
+        let celularValue = event.target.value.replace(/\D/g, '')
+        let celularWithMask = celularValue.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3')
+        event.target.value = celularWithMask
+      })
+
+
+
+    </script>
 
     <%- include("../partials/footer")%>

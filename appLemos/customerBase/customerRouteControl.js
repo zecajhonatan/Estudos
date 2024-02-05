@@ -9,14 +9,33 @@ router.use(
   session({
     secret: "admin",
     cookie: {
-      maxAge: 6000000,
-    },
+      maxAge: 6000000
+    }
   })
 );
 
 // CRIAR UM NOVO CLIENTE
 router.get("/customer/new", adminAuth, (req, res) => {
   res.render("customer/customerRegistration.ejs");
+});
+
+router.post("/customer/save", adminAuth, (req, res) => {
+  let { cliente, endereco, cpf, telefone, vendedor, formaPagamento } = req.body;
+  customerTable
+    .create({
+      customers: cliente.toUpperCase(),
+      address: endereco.toUpperCase(),
+      cpf: cpf,
+      telephone: telefone,
+      seller: vendedor,
+      paymentMethod: formaPagamento,
+    })
+    .then(() => {
+      res.redirect("/customer/list");
+    })
+    .catch((error) => {
+      console.log({ error: error.message });
+    });
 });
 
 router.get("/customer/list", adminAuth, (req, res) => {
@@ -48,37 +67,18 @@ router.get("/customer/edit/:id", adminAuth, (req, res) => {
     });
 });
 
-router.post("/customer/save", adminAuth, (req, res) => {
-  let { cliente, endereco, cpf, telefone, vendedor, formaPagamento } = req.body;
-  customerTable
-    .create({
-      customers: cliente,
-      address: endereco,
-      cpf: cpf,
-      telephone: telefone,
-      seller: vendedor,
-      paymentMethod: formaPagamento,
-    })
-    .then(() => {
-      res.redirect("/customer/list");
-    })
-    .catch((error) => {
-      console.log({ error: error.message });
-    });
-});
-
 router.post("/customer/update", adminAuth, (req, res) => {
   let id = req.body.id;
   let { cliente, endereco, cpf, telefone, vendedor, formaPagamento } = req.body;
   customerTable
     .update(
       {
-        customers: cliente,
-        address: endereco,
+        customers: cliente.toUpperCase(),
+        address: endereco.toUpperCase(),
         cpf: cpf,
         telephone: telefone,
-        seller: vendedor,
-        paymentMethod: formaPagamento,
+        seller: vendedor.toUpperCase(),
+        paymentMethod: formaPagamento.toUpperCase(),
       },
       {
         where: { id: id },
@@ -91,9 +91,8 @@ router.post("/customer/update", adminAuth, (req, res) => {
 
 router.post("/customer/delete", adminAuth, (req, res) => {
   let id = req.body.id;
-  console.log(id);
-  if (id != undefined) {
-    if (!isNaN(id)) {
+  if (!isNaN(id)) {
+      if (id != undefined) {
       customerTable
         .destroy({
           where: { id: id },

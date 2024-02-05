@@ -1,7 +1,16 @@
 <%- include ("../partials/header.ejs")%>
   <%- include ("../partials/navbar.ejs")%>
-    <div class="container"><br>
-      <h2>Lista Usuarios</h2><br>
+    <div class="container-fluid"><br>
+      <div class="container mb-4 mt-2">
+        <div class="row">
+          <div class="col-9 d-flex align-items-center pl-5">
+            <h4>Lista de usuarios</h4>
+          </div>
+          <div class="col-3 d-flex align-items-center justify-content-end">
+            <a href="/customer/list" class="btn btn-success btn-sm">Lista Entregas</a>
+          </div>
+        </div>
+      </div>
       <table class="table">
         <thead>
           <tr style="text-align: center;">

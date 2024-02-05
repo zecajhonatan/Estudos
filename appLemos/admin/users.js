@@ -20,7 +20,7 @@ router.get('/admin/registration', (req, res) => {
   res.render('admin/registrationPage.ejs')
 })
 
-router.get('/list/users',adminAuth, (req, res) => {
+router.get('/list/users', adminAuth, (req, res) => {
   Users.findAll().then((users) => {
     res.render('admin/listUsers.ejs', {
       users: users
@@ -62,7 +62,7 @@ router.post('/admin/authenticate', (req, res) => {
           id: user.id,
           email: user.email
         }
-        res.redirect('/list/users')
+        res.redirect('/trips/list')
       } else {
         res.redirect('/admin/login')
       }

@@ -4,6 +4,7 @@
   <div class="row align-items-center">
     <div class="col-md-10 mx-auto col-lg-5">
       <form action="/admin/registration/create" method="post" class="p-4 p-md-5 rounded-1 bg-light">
+        <h3 class="text-center">Cadastrar Sistema Lemos</h3><br>
         <div class="form-floating mb-3">
           <label for="inputEmail">E-mail</label>
           <input type="email" required class="form-control" name="email" id="inputEmail" placeholder="E-mail">
@@ -12,7 +13,8 @@
           <label for="inputPassword">Senha</label>
           <input type="password" required class="form-control" name="password" id="inputPassword" placeholder="Senha">
         </div>
-        <button class="w-100 btn btn-lg btn-dark" type="submit">Cadastrar</button>
+        <button class="w-100 btn btn-lg btn-success mb-2" type="submit">Cadastrar</button>
+        <a href="/admin/login" class="w-100 btn btn-lg btn-dark">Login</a>
       </form>
     </div>
   </div>

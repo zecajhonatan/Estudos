@@ -18,14 +18,6 @@ const customer = connection.define('customer', {
   telephone: {
     type: Sequelize.STRING,
     allowNull: false
-  },
-  seller: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  paymentMethod: {
-    type: Sequelize.STRING,
-    allowNull: false
   }
 })
 

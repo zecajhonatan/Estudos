@@ -2,44 +2,41 @@
 <%- include ("../partials/header.ejs")%>
   <%- include ("../partials/navbar.ejs") %>
     <div class="container mt-4">
-
       <form action="/customer/update" method="post">
-
-        <!-- CLIENTE -->
-        <div class="form-group">
-          <div>
-            <label for="cliente">Cliente:</label>
-            <input type="text" value="<%= customer.customers %>" required name="cliente" class="form-control"
-              id="cliente" placeholder="Adicione o nome">
+        <h4>Editar Cliente</h4>
+        <div class="row">
+          <!-- CLIENTE -->
+          <div class="form-group col-lg-6">
+            <div>
+              <label for="cliente">Cliente:</label>
+              <input type="text" value="<%= customer.customers %>" required name="cliente" class="form-control"
+                id="cliente" placeholder="Adicione o nome">
+            </div>
           </div>
-        </div>
-
-        <!-- ENDEREÇO -->
-        <div class="form-group">
-          <div>
-            <label for="endereco">Endereço:</label>
-            <input type="text" value="<%= customer.address %>" required name="endereco" class="form-control"
-              id="endereco" placeholder="Adicione o endereço">
+          <!-- ENDEREÇO -->
+          <div class="form-group col-lg-6">
+            <div>
+              <label for="endereco">Endereço:</label>
+              <input type="text" value="<%= customer.address %>" required name="endereco" class="form-control"
+                id="endereco" placeholder="Adicione o endereço">
+            </div>
           </div>
-        </div>
-
-        <div class="container d-flex justify-content-between align-items-center p-0 flex-wrap mb-5">
           <!-- CPF -->
-          <div class="form-group">
+          <div class="form-group col-lg-3">
             <div class="">
               <label for="endereco">CPF:</label>
-              <input type="text" value=" <%= customer.cpf %> " style="width: 205px;" required name="cpf" class="form-control" id="cpf"
+              <input type="text" value=" <%= customer.cpf %> " required name="cpf" class="form-control" id="cpf"
                 placeholder="000.000.000 - 00">
             </div>
           </div>
           <!-- TELEFONE -->
-          <div class="form-group">
+          <div class="form-group col-lg-3">
             <label for="telefone">Telefone:</label>
-            <input type="tel" value="<%= customer.telephone %>" style="width: 205px;" required class="form-control" name="telefone" id="telefone"
-              placeholder="(00)-0-0000-0000 ">
+            <input type="tel" value="<%= customer.telephone %>" required class="form-control" name="telefone"
+              id="telefone" placeholder="(00)-0-0000-0000 ">
           </div>
           <!-- VENDEDOR -->
-          <div class="form-group" style="width: 205px;">
+          <div class="form-group col-lg-3">
             <label for="vendedor">Vendedor:</label>
             <select class="form-control" required name="vendedor" id="vendedor">
               <option selected></option>
@@ -50,7 +47,7 @@
             </select>
           </div>
           <!-- FORMA PAGAMENTO -->
-          <div class="form-group" style="width: 205px;">
+          <div class="form-group col-lg-3">
             <label for="formaPagamento">Forma Pagamento:</label>
             <select class="form-control" required name="formaPagamento" id="formaPagamento">
               <option selected></option>
@@ -61,13 +58,12 @@
             </select>
           </div>
         </div>
+        <div class="container mt-5 d-flex align-items-center justify-content-between p-0">
+          <input type="hidden" name="id" value="<%= customer.id %>">
+            <a href="/customer/list" class="btn btn-success btn-sm">Lista Clientes</a>
+            <button id="botao" type="submit" class="btn btn-warning btn-sm text-white ml-auto mr-3">Editar Cliente</button>
+        </div>
+      </form>
     </div>
-
-    <div class="container mt-5 d-flex p-0">
-      <input type="hidden" name="id" value="<%= customer.id %>">
-      <button id="botao" type="submit" class="btn btn-warning text-white ml-auto mr-3">Editar Cliente</button>
     </div>
-    </form>
-    </div>
-    <br><br>
     <%- include ("../partials/footer.ejs") %>

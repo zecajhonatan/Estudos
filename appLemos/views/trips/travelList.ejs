@@ -1,0 +1,105 @@
+<%- include ("../partials/header.ejs")%>
+  <%- include ("../partials/navbar.ejs")%>
+
+    <div class="container-fluid col-12" style="height: 470px;">
+      <div class="table-responsive" style="max-height: 470px;">
+        <table class="table table-hover table-bordered table-sm text-center align-middle m-0 caption-top"
+          style="font-size: 13px;">
+          <thead class="table-dark">
+            <tr>
+              <th>Cliente</th>
+              <th>Endereço</th>
+              <th>Material</th>
+              <th>Quantidade</th>
+              <th>Preço Unitario</th>
+              <th>Valor Total</th>
+              <th>Vendedor</th>
+              <th>FormaPagamento</th>
+              <th>Telefone</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% trips.forEach(trip=> {%>
+              <tr>
+                <td class="text-break p-0">
+                  <%= trip.cliente %> <!-- NOME CLIENTES -->
+                </td>
+                <td class="text-break p-0">
+                  <%= trip.endereco %> <!-- ENDEREÇO -->
+                </td>
+                <td class="p-0">
+                  <%= trip.material %> <!-- MATERIAL -->
+                </td>
+                <td class="p-0">
+                  <%= trip.quantidade %> <!-- QUANTIDADE -->
+                </td>
+                <td class="p-0">
+                  <%= trip.precoUnitario %> <!-- PREÇO-UNITARIO -->
+                </td>
+                <td class="p-0">
+                  <%= trip.valorTotal %> <!-- VALOR-TOTAL -->
+                </td>
+                <td class="p-0">
+                  <%= trip.vendedor %> <!-- VENDENDOR -->
+                </td>
+                <td class="p-0">
+                  <%= trip.formaPagamento %> <!-- FORMA-PAGAMENTO -->
+                </td>
+                <td class="p-0">
+                  <%= trip.telefone %> <!-- TELEFONE -->
+                </td>
+                <td class="p-0">
+                  <div class="d-flex justify-content-around justify-content-center align-items-center">
+                    <a class="" href="/trips/edit/<%= trip.id %>"><i class="bi bi-pencil-square"></i></a>
+                    <form action="/trips/delete/<%= trip.id%>" method="post" onsubmit="verification(event, this)">
+                      <input type="hidden" name="id" value="<%= trip.id %>">
+                      <button class="" style="border: none; background: none;"><i
+                          class="bi bi-trash3-fill"></i></button>
+                    </form>
+                  </div>
+                </td>
+      </div>
+      </tr>
+      <%})%>
+        </tbody>
+        <caption class="text-center fs-5">Lista Viagens</caption>
+        </table>
+    </div>
+    </div>
+
+    <!-- <div class="container mb-4 mt-2">
+      <div class="row">
+        <div class="col-10 d-flex align-items-center pl-5">
+        </div>
+        <div class="col-2 d-flex align-items-center justify-content-end">
+          <a href="/trips/register" class="btn btn-success btn-sm">Adicionar Entregas</a><br>
+        </div>
+      </div>
+    </div> -->
+
+     <div class="container">
+      <form action="/trips/register" method="post">
+        <div class="row mb-2 mt-3 border">
+          <!-- PESQUISA -->
+          <div class="form-group col-lg-2 ">
+            <input type="text" required name="codigo" class="form-control mb-3" id="codigo" placeholder="Adicione o Codigo">
+          </div>
+          <div class="form-group col-lg-3">
+            <button class="btn btn-success" type="submit">Pesquisar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+
+    <%- include ("../partials/footer.ejs")%>
+      <script>
+        function verification(event, form) {
+          event.preventDefault()
+          let confirmation = confirm('Tem certeza que deseja Deletar')
+          if (confirmation) {
+            form.submit()
+          }
+        }
+      </script>

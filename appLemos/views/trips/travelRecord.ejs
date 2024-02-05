@@ -1,0 +1,109 @@
+<!-- registro viagens -->
+<%- include("../partials/header.ejs")%>
+  <%- include("../partials/navbar.ejs")%>
+
+    <div class="container mt-4">
+      <h3>Adicionar Viagens</h3>
+
+      <form action="/trips/create" method="post">
+        <div class="row mb-4">
+          <!-- CLIENTE -->
+          <div class="form-group col-lg-6 ">
+            <div>
+              <label for="cliente">Cliente:</label>
+              <input type="text" required name="cliente" class="form-control" id="cliente"
+                placeholder="Adicione o nome">
+            </div>
+          </div>
+          <!-- ENDEREÇO -->
+          <div class="form-group col-lg-6 ">
+            <div>
+              <label for="endereco">Endereço:</label>
+              <input type="text" required name="endereco" class="form-control" id="endereco"
+                placeholder="Adicione o endereço">
+            </div>
+          </div>
+
+          <!-- MATERIAL -->
+          <div class="form-group col-lg-3">
+            <label for="material">Material:</label>
+            <select class="form-control" required name="material" id="material">
+              <option selected></option>
+              <option>Areia Fina</option>
+              <option>Areia Media</option>
+              <option>Areia Grossa</option>
+              <option>Brita 0</option>
+              <option>Brita 1</option>
+              <option>Brita 2</option>
+            </select>
+          </div>
+          <!-- QUANTIDADE -->
+          <div class="form-group col-lg-3">
+            <label for="quantidade">Quantidade:</label>
+            <input type="number" required name="quantidade" class="form-control" id="quantidade" placeholder="0,000">
+          </div>
+          <!-- PREÇO UNITARIO -->
+          <div class="form-group col-lg-3">
+            <label for="precoUnitario">Preço Unitario:</label>
+            <input type="number" required name="precoUnitario" class="form-control verificar" id="precoUnitario"
+              placeholder="R$ 0,000">
+          </div>
+          <!-- VALOR TOTAL -->
+          <div class="form-group col-lg-3">
+            <label for="valorTotal">Valor Total:</label>
+            <input type="number" name="valorTotal" class="form-control" id="valorTotal">
+          </div>
+
+          <!-- VENDEDOR -->
+          <div class="form-group col-lg-3">
+            <label for="vendedor">Vendedor:</label>
+            <select class="form-control verificar" required name="vendedor" id="vendedor">
+              <option selected></option>
+              <option>Caique</option>
+              <option>Paulo Thiago</option>
+              <option>Marcus Paulo</option>
+              <option>Celio de Paula</option>
+            </select>
+          </div>
+          <!-- FORMA PAGAMENTO -->
+          <div class="form-group col-lg-3">
+            <label for="formaPagamento">Forma Pagamento:</label>
+            <select class="form-control verificar" required name="formaPagamento" id="formaPagamento">
+              <option selected></option>
+              <option>Dinheiro</option>
+              <option>Cartão Credito</option>
+              <option>Cartão Debito</option>
+              <option>Pix</option>
+            </select>
+          </div>
+          <!-- TELEFONE -->
+          <div class="form-group col-lg-3">
+            <label for="telefone">Telefone:</label>
+            <input type="tel" required class="form-control verificar" name="telefone" id="telefone"
+              placeholder="(00)-0-0000-0000 ">
+          </div>
+        </div>
+        <div class="mt-3 d-flex justify-content-between">
+          <a href="/trips/list" class="btn btn-sm btn-outline-primary">Lista Clientes</a>
+          <button id="botao" type="submit" class="btn btn-warning btn-sm text-white ml-auto">Adicionar Venda</button>
+        </div>
+      </form>
+    </div>
+    <script>
+
+      let quantidade = document.querySelector('#quantidade').addEventListener("input", valorTotal)
+      let precoUnitario = document.querySelector('#precoUnitario').addEventListener("input", valorTotal)
+
+      function valorTotal() {
+        let quantidade = document.querySelector('#quantidade')
+        let precoUnitario = document.querySelector('#precoUnitario')
+        let valorTotal = document.querySelector('#valorTotal')
+        let quantidadeTotal = +quantidade.value
+        let precoUnitarioTotal = +precoUnitario.value
+        let res = quantidadeTotal * precoUnitarioTotal
+        valorTotal.value = parseInt(res).toFixed(2)
+      }
+
+    </script>
+    <br><br>
+    <%- include("../partials/footer")%>

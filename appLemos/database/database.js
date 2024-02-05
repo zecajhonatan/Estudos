@@ -1,6 +1,8 @@
 import Sequelize from 'sequelize'
 
-const connection = new Sequelize('lemos', 'root', '123456', {
+let senha = 'Juliae090320132023' || 123456
+
+const connection = new Sequelize('lemos', 'root', senha, {
   host: 'localhost',
   dialect: 'mysql',
   timezone: '-03:00'
