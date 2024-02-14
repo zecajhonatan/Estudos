@@ -25,16 +25,6 @@ router.get('/trips/edit', (req, res) => {
   res.render('trips/travelList.ejs')
 })
 
-// DIRECIONA PARA CADASTRO
-router.post('/trips/register', (req, res) => {
-  let id = req.body.codigo
-  trips.findOne({ where: { id: id } }).then(dados => {
-    res.redirect('/trips/travelRecord.ejs', {
-      dados: dados
-    })
-  })
-})
-
 // SALVA DADOS NA BASE DE DADOS
 router.post('/trips/create', (req, res) => {
   let { cliente, endereco, material, quantidade, precoUnitario, valorTotal, vendedor, formaPagamento, telefone } = req.body
@@ -107,8 +97,14 @@ router.post('/trips/delete/:id', (req, res) => {
   }
 })
 
-router.post('/trips/pesquisa', (req, res) => {
-  
+// DIRECIONA PARA CADASTRO
+router.post('/trips/register', (req, res) => {
+  let id = req.body.codigo
+  trips.findOne({ where: { id: id } }).then(dados => {
+    res.render('trips/travelRecord.ejs', {
+      dados: dados
+    })
+  })
 })
 
 export default router
