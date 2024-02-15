@@ -15,7 +15,7 @@
   <!-- SCRIPT LOCAL -->
   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
 
-  <title>Quinatanda Online :: Quem Somos</title>
+  <title>Quinatanda Online :: Login</title>
 
   <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
@@ -82,21 +82,30 @@
 
   <main>
     <div class="container">
-      <h2>Quem Somos</h2>
-      <hr>
-      <p>
-        Quitanda online é uma loja virtual (e-commerce) fictícia criada como estudo de caso 
-        para o curso "Desenvolvimento de uma loja virtual com Bootstrap 5 e ASP .NET 5"
-        disponibilizado pelo Prof. Ricardo Maroquio em seu canal do youtube.
-      </p>
-      <p>
-        o codigo fonte pode ser obtido via guithub, conforme orientações apresentadas ao longo 
-        nos videos no curso do YouTube. Este estudo de caso pode ser utilizado livremente 
-        como base para outras lojas virtuais, sem ônus para o Usuario. 
-      </p>
-      <p>
-        Bons estudos e ba programação.
-      </p>
+      <div class="row justify-content-center">
+        <form class="col-sm-10 col-md-8 col-lg-6">
+          <h2 class="mb-3">Identifique-se por favor</h2>
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" autofocus name="" id="txtEmail" placeholder=" ">
+            <label for="txtEmail">E-mail:</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" autofocus name="" id="txtSenha" placeholder=" ">
+            <label for="txtSenha">Senha:</label>
+          </div>
+          <div class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" name="" id="chkLembrar">
+            <label for="chkLembrar" class="form-check-label">Lembrar de mim</label>
+          </div>
+          <button class="btn btn-md btn-danger" type="button">Enviar</button>
+          <p class="mt-3">
+            Ainda não e cadastrado? <a href="/cadastro.html">Clique aqui</a> para se cadastrar.
+          </p>
+          <p class="mt-3">
+            Esqueceu sua senha? <a href="/recuperarsenha.html">Clique aqui</a> para recuperá-la.
+          </p>
+        </form>
+      </div>
     </div>
   </main>
 
