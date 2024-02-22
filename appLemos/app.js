@@ -15,10 +15,12 @@ import CustomerRouteControle from './customerBase/customerRouteControl.js'
 import Users from './admin/users.js'
 import Drives from './driverRegistration/tableDiver.js'
 import Travel from './travelRecord/travel.js'
+import Map from './map/mapRouteControl.js'
 app.use('/', CustomerRouteControle)
 app.use('/', Users)
 app.use('/', Drives)
 app.use('/', Travel)
+app.use('/', Map)
 
 app.use(session({
   secret: 'admin',

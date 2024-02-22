@@ -82,6 +82,7 @@
 </head>
 
 <body>
+
   <div id="base">
 
     <select id="usuarios">
@@ -138,7 +139,7 @@
     /* COM ESSE METODO (EMIT) EU MANDO MENSAGEM PARA O SERVIDOR */
     if (input.value) {
       // if (verificar) {
-        socket.emit("mensagemId", usuarios.value, input.value)
+      socket.emit("mensagemId", usuarios.value, input.value)
       // }
       // socket.emit("chatMenssage", input.value)
     }
@@ -147,14 +148,12 @@
 
 
   // RECEBENDO A MENSAGEM DO BECKEND --> E LISTANDO NA TELA 
-  // socket.on("chatMenssage", (msg) => {
-  //   let li = document.createElement("li")
-  //   li.textContent = msg
-  //   messages.appendChild(li)
-  //   window.scrollTo(0, document.body.scrollHeight)
-  // })
-
-
+  socket.on("chatMenssage", (msg) => {
+    let li = document.createElement("li")
+    li.textContent = msg
+    messages.appendChild(li)
+    window.scrollTo(0, document.body.scrollHeight)
+  })
 
   socket.on("mensagemId", (msg) => {
     let li = document.createElement("li")
@@ -166,8 +165,3 @@
 </script>
 
 </html>
-
-
-
-
-

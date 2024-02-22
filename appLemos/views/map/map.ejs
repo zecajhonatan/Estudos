@@ -1,0 +1,48 @@
+<%- include("../partials/header.ejs")%>
+  <%- include("../partials/navbar.ejs")%>
+
+    <div id="map" style="width: 600px; height: 300px;"></div>
+    <!-- <script src="/socket.io/socket.io.js"></script> -->
+    <script>
+
+      let map
+
+      // const socket = io('http://localhost:3000');
+
+      // navigator.geolocation.watchPosition((geolication) => {
+      //   socket.emit('posicao', geolication.coords.latitude, geolication.coords.longitude);
+      // })
+
+      // socket.on('posicao', (latitude, longitude) => {
+      //   if (map === undefined) {
+      //     map = L.map('map').setView([51.505, -0.09], 13);
+      //   } else {
+      //     map.remove()
+      //     map = L.map('map').setView([51.505, -0.09], 13);
+      //   }
+      //   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      //     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      //   }).addTo(map);
+
+      //   L.marker([51.505, -0.09]).addTo(map)
+      //     .bindPopup('Jhonatan Santos')
+      //     .openPopup();
+      // })
+
+      if (map === undefined) {
+          map = L.map('map').setView([51.505, -0.09], 13);
+        } else {
+          map.remove()
+          map = L.map('map').setView([51.505, -0.09], 13);
+        }
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        L.marker([51.505, -0.09]).addTo(map)
+          .bindPopup('Jhonatan Santos')
+          .openPopup();
+
+    </script>
+
+    <%- include("../partials/footer")%>

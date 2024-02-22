@@ -7,12 +7,20 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.set('view engine', 'ejs') // tipo de motor de renderização
 
-const token = '88420a5f-f0c8-413d-9d48-22a1e8da2d9c'
+const token = 'a0469660-7f65-43de-a4e6-701f15c065c3'
 const proxy = 'https://corsproxy.io/?' // evita que tenha erros de CORS
 
-const idPlayer = 237679 // id do jogador conforme a colocação dele na lsitagem da AE
-const valorJogador = 3500 // PREÇO JOGADOR
-const menorPreco =  3000// PRECO A BAIXO
+const idPlayer = 232580 // id do jogador conforme a colocação dele na listagem da AE
+const compraJaMin = 2000
+const compraJaMax = 2500
+
+
+let retornaValor_MenosPorcentagem = (valor, porcentagem) => {
+  let resultado = porcentagem * valor / 100
+  let valorMenor = valor - resultado
+  return valorMenor
+}
+
 let start = 0
 
 // ROTA BASE URL
@@ -29,12 +37,11 @@ app.get('/pesquisaMenorPrecoJogador', async (req, res) => {
 
   let trade
   let PrecoComprarAgoraPrimeiroJogador
-  
 
-  const queryParams = { maskedDefId: idPlayer, maxb: valorJogador, num: 21, start: start }
+  const queryParams = { maskedDefId: idPlayer, type: 'player', minb: compraJaMin, maxb: compraJaMax, num: 21, start: start }
   const queryString = new URLSearchParams(queryParams).toString()
   const url = `https://utas.mob.v2.fut.ea.com/ut/game/fc24/transfermarket?${queryString}`
-  start += 20
+  // start += 20
 
   fetch(url, {
     method: 'GET',
@@ -52,61 +59,66 @@ app.get('/pesquisaMenorPrecoJogador', async (req, res) => {
     .then(data => {
 
       let arrayTodosJogadores = data.auctionInfo // ARRAY
-      let menorPrecoEncontrado = arrayTodosJogadores.filter(data => data.buyNowPrice <= menorPreco)
+      
+      let menorPrecoEncontrado = arrayTodosJogadores.filter(data => data.buyNowPrice <= retornaValor_MenosPorcentagem(compraJaMax, 10))
+      res.json(menorPrecoEncontrado)
 
-      if (menorPrecoEncontrado != '') {
-        trade = menorPrecoEncontrado.map(data => data.tradeId)
-        let tradePrimeiro = trade[0]
-        PrecoComprarAgoraPrimeiroJogador = menorPrecoEncontrado.map(data => data.buyNowPrice)
-        let precoPrimeiro = PrecoComprarAgoraPrimeiroJogador[0]
-        comprarJogador(tradePrimeiro, precoPrimeiro)
 
-        // trade.forEach(tradeId => {
-        //   PrecoComprarAgoraPrimeiroJogador.forEach(preco => {
-            
-        //   })
-        // })
+      // if (menorPrecoEncontrado != '') {
+      //   trade = menorPrecoEncontrado.map(data => data.tradeId)
+      //   let tradePrimeiro = trade[0]
+      //   PrecoComprarAgoraPrimeiroJogador = menorPrecoEncontrado.map(data => data.buyNowPrice)
+      //   let precoPrimeiro = PrecoComprarAgoraPrimeiroJogador[0]
+      //   comprarJogador(tradePrimeiro, precoPrimeiro)
 
-      } else {
-        console.log('Não existem Valores definidos')
-      }
-      if (arrayTodosJogadores.length == 21) {
-        console.log(start)
-        console.log('---------------------')
-        console.log('arrayTodosJogadores ' + arrayTodosJogadores.length)
-        console.log('menorPrecoEncontrado ' + menorPrecoEncontrado.length)
-        console.log('PrecoComprarAgoraPrimeiroJogador' + PrecoComprarAgoraPrimeiroJogador)
-        console.log('idPrimeiroJogadorArray ' + trade)
-        console.log('---------------------')
+      //   // trade.forEach(tradeId => {
+      //   //   PrecoComprarAgoraPrimeiroJogador.forEach(preco => {
 
-        setTimeout(() => {
-          res.redirect('/pesquisaMenorPrecoJogador')
-        }, 2000)
+      //   //   })
+      //   // })
 
-      } else if (arrayTodosJogadores.length < 21) {
-        start = 0
-        console.log('x-x-x-x-x-x-x-x-x-x-x-x-x-x-x')
-        console.log('---------------------')
-        console.log('Ultima Pagina')
-        console.log('---------------------')
-        console.log('arrayTodosJogadores ' + arrayTodosJogadores.length)
-        console.log('menorPrecoEncontrado ' + menorPrecoEncontrado.length)
-        console.log('PrecoComprarAgoraPrimeiroJogador ' + PrecoComprarAgoraPrimeiroJogador)
-        console.log('idPrimeiroJogadorArray ' + trade)
-        console.log('---------------------')
+      // } else {
+      //   console.log('Não existem Valores definidos')
+      // }
 
-        setTimeout(() => {
-          res.redirect('/pesquisaMenorPrecoJogador')
-        }, 2000)
+      // if (arrayTodosJogadores.length == 21) {
+      //   console.log(start)
+      //   console.log('---------------------')
+      //   console.log('arrayTodosJogadores ' + arrayTodosJogadores.length)
+      //   console.log('menorPrecoEncontrado ' + menorPrecoEncontrado.length)
+      //   console.log('PrecoComprarAgoraPrimeiroJogador' + PrecoComprarAgoraPrimeiroJogador)
+      //   console.log('idPrimeiroJogadorArray ' + trade)
+      //   console.log('---------------------')
 
-      } else {
+      //   setTimeout(() => {
+      //     res.redirect('/pesquisaMenorPrecoJogador')
+      //   }, 2000)
 
-      }
+      // } else if (arrayTodosJogadores.length < 21) {
+      //   start = 0
+      //   console.log('x-x-x-x-x-x-x-x-x-x-x-x-x-x-x')
+      //   console.log('---------------------')
+      //   console.log('Ultima Pagina')
+      //   console.log('---------------------')
+      //   console.log('arrayTodosJogadores ' + arrayTodosJogadores.length)
+      //   console.log('menorPrecoEncontrado ' + menorPrecoEncontrado.length)
+      //   console.log('PrecoComprarAgoraPrimeiroJogador ' + PrecoComprarAgoraPrimeiroJogador)
+      //   console.log('idPrimeiroJogadorArray ' + trade)
+      //   console.log('---------------------')
+
+      //   setTimeout(() => {
+      //     res.redirect('/pesquisaMenorPrecoJogador')
+      //   }, 2000)
+
+      // } else {
+
+      // }
 
     })
     .catch(error => {
       console.log(error.message)
     })
+
 })
 
 let calcularPorcentagem = (porcentagem, valor) => {
